@@ -48,7 +48,7 @@
 				<table border="0" width="100%">
 					<tr>
 						<td>
-							<button type="submit" class="sexybutton sexysimple sexyorange"><spring:message code="login" /></button>
+							<button type="submit" class="sexybutton sexysimple sexyblue"><spring:message code="login" /></button>
 						</td>
 						<td align="right">
 							<a href="?lang=en"><img src="theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/flag/usa.png" width="25" style="vertical-align: middle;" /></a>
