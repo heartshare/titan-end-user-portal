@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                    http://www.springframework.org/schema/security 
+                    http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<global-method-security pre-post-annotations="enabled" />
+	<http use-expressions="true" auto-config="false">
+		<!-- <intercept-url pattern="/**" access="hasRole('ROLE_USER')" /> -->
+		<!-- <intercept-url pattern="/main.htm" access="hasRole('ROLE_USER')" /> -->
+
+		<!-- <intercept-url pattern="/*" access="permitAll" /> <intercept-url pattern="/theme/**" 
+			access="permitAll" /> <intercept-url pattern="/main/**" access="permitAll" 
+			/> <intercept-url pattern="/**" access="denyAll" /> <access-denied-handler 
+			error-page="/403.jsp" /> -->
+		<form-login login-page="/index.htm" />
+		<logout logout-url="/logout.htm" />
+	</http>
+
+
+	<authentication-manager alias="authenticationManager" />
+</beans:beans>

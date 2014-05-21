@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.innove.it/life/spring-ws-annotations"
+	xmlns:tns="http://www.innove.it/life/spring-ws-annotations"
+	elementFormDefault="qualified">
+
+    <element name="HelloRequest">
+    	<complexType></complexType>
+    </element>
+
+    <element name="HelloResponse">
+    	<complexType>
+    		<all>
+    			<element name="result" type="string"></element>
+    		</all>
+    	</complexType>
+    </element>
+
+    <element name="HelloToRequest">
+    	<complexType>
+    		<all>
+    			<element name="to" type="string"></element>
+    		</all>
+    	</complexType>
+    </element>
+
+    <element name="HelloToResponse">
+    	<complexType>
+    		<all>
+    			<element name="result" type="string"></element>
+    		</all>
+    	</complexType>
+    </element>
+
+</schema>
