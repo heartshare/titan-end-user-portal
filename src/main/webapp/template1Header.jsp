@@ -29,7 +29,7 @@
 	
 	
 	<script type='text/javascript' src="${pageContext.request.contextPath}/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.js"></script>
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.css"/>
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/jquery-ui-1.10.4.custom/css/redmond/jquery-ui-1.10.4.custom.css"/>
 	
 	<script type="text/javascript" src="${pageContext.request.contextPath}/jqgrid/js/i18n/grid.locale-en.js" ></script>
 	<script type='text/javascript' src="${pageContext.request.contextPath}/jqgrid/js/jquery.jqGrid.min.js"></script>
@@ -56,11 +56,13 @@
 <body>
 	<table border="0" width="100%" cellpadding="0" cellspacing="0">
 		<tr>
-			<td style="background-image:url(${pageContext.request.contextPath}/theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/logoBG.png); background-repeat:no-repeat; background-position:right bottom; ">
+			<td>
 				<img src="${pageContext.request.contextPath}/theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/logoSmall.png" border="0" style="margin-left:20px" />
 			</td>
+		</tr>
+		<tr>
 			<td valign="bottom">
-				<div class="blue">					
+				<div class="white">					
 					<ul id="mainmenu" class="mega-menu megaDropDown_ul">
 						<li>
 							<a id="tab_home" href="${pageContext.request.contextPath}/main/index.htm"><spring:message code="menuServer" /></a>
@@ -84,7 +86,6 @@
 				</div>
 				<div style="position: absolute; right:10px; top:5px; text-align: right;">
 					Welcome, ${username }
-					${authorities }
 					<span id="logout" style="cursor:pointer;"><a href="${pageContext.request.contextPath}/logout.htm">Logout</a></span>
 					<br />
 					
