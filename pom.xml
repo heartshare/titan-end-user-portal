@@ -235,4 +235,5 @@
 			</resource>
 		</resources>
 	</build>
+	<description>An openstack portal for hosting company</description>
 </project>
