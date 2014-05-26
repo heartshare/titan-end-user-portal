@@ -42,17 +42,11 @@
 	<script type='text/javascript' src='${pageContext.request.contextPath}/Highcharts-2/js/highcharts.js'></script>
 	
 	<script type='text/javascript' src='${pageContext.request.contextPath}/global.js'></script>
+	
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/mainmenu.css" />
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/submenu.css" />
+	
 </head>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('#mainmenu').dcMegaMenu({
-			rowItems: '3',
-			speed: 'fast',
-			effect: 'fade',
-			event: 'click'
-		});
-	});
-</script>
 <body>
 	<table border="0" width="100%" cellpadding="0" cellspacing="0">
 		<tr>
@@ -63,29 +57,19 @@
 		<tr>
 			<td valign="bottom">
 				<div class="white">					
-					<ul id="mainmenu" class="mega-menu megaDropDown_ul">
-						<li>
-							<a id="tab_home" href="${pageContext.request.contextPath}/main/index.htm"><spring:message code="menuServer" /></a>
-						</li>
-						<li>
-							<a id="tab_news" href="${pageContext.request.contextPath}/payroll/index.htm"><spring:message code="menuServerImage" /></a>
-						</li>
-						<li>
-							<a id="tab_prtg" href="${pageContext.request.contextPath}/orgChart.htm"><spring:message code="menuNetwork" /></a>
-						</li>
-						<li>
-							<a id="tab_prtg" href="${pageContext.request.contextPath}/timesheet/index.htm"><spring:message code="menuSSHKey" /></a>
-						</li>
-						<li>
-							<a id="tab_otrs" href="${pageContext.request.contextPath}/leave.htm"><spring:message code="menuBlockStorage" /></a>
-						</li>
-						<li>
-							<a id="tab_im" href="${pageContext.request.contextPath}/appraisal.htm"><spring:message code="menuStorageSnapshot" /></a>
-						</li>
-					</ul>
-				</div>
+					<header class="blue">
+						<ul>
+							<li><a href="javascript:void(0);" class="active">Server</a></li>
+							<li><a href="javascript:void(0);">Image</a></li>
+							<li><a href="javascript:void(0);">Network</a></li>
+							<li><a href="javascript:void(0);">SSH Key</a></li>
+							<li><a href="javascript:void(0);">Block storage</a></li>
+							<li><a href="javascript:void(0);">Storage snapshot</a></li>
+						</ul>
+					</header>
 				<div style="position: absolute; right:10px; top:5px; text-align: right;">
 					Welcome, ${username }
+					<!-- ${authorities } -->
 					<span id="logout" style="cursor:pointer;"><a href="${pageContext.request.contextPath}/logout.htm">Logout</a></span>
 					<br />
 					

@@ -62,10 +62,10 @@ public class IndexController {
 			logger.info("user login: " + username);
 
 			List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-			authorities.add(new GrantedAuthorityImpl("ROLE_ADMIN"));
+			authorities.add(new GrantedAuthorityImpl("ROLE_LOGINED"));
 			Authentication auth = new UsernamePasswordAuthenticationToken(username, password, authorities);
 
-			request.getSession();
+//			request.getSession();
 
 			SecurityContext securityContext = SecurityContextHolder.getContext();
 			securityContext.setAuthentication(auth);
