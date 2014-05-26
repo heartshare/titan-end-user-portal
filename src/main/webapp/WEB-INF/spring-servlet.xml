@@ -43,7 +43,4 @@
 		</property>
 	</bean>
 
-	<!-- <bean id="accessDeniedHandler" class="com.peter.MyAccessDeniedHandler"> 
-		<property name="accessDeniedUrl" value="403" /> </bean> -->
-
 </beans>

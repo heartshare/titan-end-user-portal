@@ -1,5 +1,6 @@
 package com.titanenduserportal.controller;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import com.titanenduserportal.CommonLib;
 @Controller
 public class MainController {
 
+	@Secured("ROLE_LOGINED")
 	@RequestMapping(value = "/main/index.htm", method = RequestMethod.GET)
 	public String main(ModelMap model) {
 		model.addAttribute("username", CommonLib.getUsername());

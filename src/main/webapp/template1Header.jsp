@@ -68,7 +68,7 @@
 						</ul>
 					</header>
 				<div style="position: absolute; right:10px; top:5px; text-align: right;">
-					Welcome, ${username }
+					Welcome, ${username } !
 					<!-- ${authorities } -->
 					<span id="logout" style="cursor:pointer;"><a href="${pageContext.request.contextPath}/logout.htm">Logout</a></span>
 					<br />
