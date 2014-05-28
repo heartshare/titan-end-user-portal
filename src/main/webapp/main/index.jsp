@@ -1,15 +1,8 @@
-<%@ include file="../template1Header.jsp" %>
-
+<%@ include file="../template1Header.jsp" %>\
 
 <table border="0" width="100%" height="100%">
 	<tr>
-		<td valign="top" align="left">
-			
-			<!-- Google Fonts -->
-			<link href='http://fonts.googleapis.com/css?family=Strait' rel='stylesheet' type='text/css'>
-			
-			<!-- HTML -->
-			
+		<td valign="top" align="left" width="400">
 			<div class="menu-container">
 			  <div class="nav">
 			      Functions

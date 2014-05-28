@@ -46,7 +46,10 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/mainmenu.css" />
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/submenu.css" />
 	
+	<!-- Google Fonts -->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Strait' rel='stylesheet' type='text/css'> -->
 </head>
+<c:set var="pageName" value="${fn:split(pageContext.request.servletPath, '/')[0]}" />
 <body>
 	<table border="0" width="100%" cellpadding="0" cellspacing="0">
 		<tr>
@@ -56,15 +59,17 @@
 		</tr>
 		<tr>
 			<td valign="bottom">
-				<div class="white">					
+				<div class="white">
 					<header class="blue">
 						<ul>
-							<li><a href="javascript:void(0);" class="active">Server</a></li>
+							<li><a href="../main/index.htm" <c:if test="${pageName == 'main'}">class="active"</c:if>>Server</a></li>
 							<li><a href="javascript:void(0);">Image</a></li>
 							<li><a href="javascript:void(0);">Network</a></li>
 							<li><a href="javascript:void(0);">SSH Key</a></li>
 							<li><a href="javascript:void(0);">Block storage</a></li>
 							<li><a href="javascript:void(0);">Storage snapshot</a></li>
+							<li><a href="../support/index.htm" <c:if test="${pageName == 'support'}">class="active"</c:if>>Support</a></li>
+							<li><a href="../log/index.htm" <c:if test="${pageName == 'log'}">class="active"</c:if>>Log</a></li>
 						</ul>
 					</header>
 				<div style="position: absolute; right:10px; top:5px; text-align: right;">

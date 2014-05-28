@@ -1,5 +1,5 @@
-var gridMarginWidth=10;
-var gridMarginHeight=250;
+var gridMarginWidth=60;
+var gridMarginHeight=280;
 
 var dateFormatStr='yy/mm/dd';
 
