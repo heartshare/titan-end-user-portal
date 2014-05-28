@@ -219,7 +219,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>Titan end user portal</finalName>
+		<finalName>TitanEndUserPortal</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
