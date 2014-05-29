@@ -2,9 +2,15 @@
 
 <script>
 	$(document).ready(function() {
-		$('#searchLog').click(function() { 
-			if ($(this).val() == 'Search log') {   
+		$('#searchLog').click(function() {
+			if ($(this).val() == 'Search log') {
 				$('#searchLog').val('');
+			}
+		});
+		
+		$('#searchLog').keypress(function(e) { 
+			if(e.which == 13) {
+				$('#searchLogButton').trigger('click');
 			}
 		});
 		
@@ -12,7 +18,7 @@
 			if ($('#searchLog').val() == 'Search log') {   
 				$('#searchLog').val('');
 			}
-			$("#logGrid").setGridParam({url: 'gridLog.htm?searchString='+$('#searchLog').val()});
+			$("#logGrid").setGridParam({url: 'gridLog.htm?searchString='+$('#searchLog').val()+'&dateFrom='+$('#dateFrom').val()+'&dateTo='+$('#dateTo').val()});
             $("#logGrid").trigger("reloadGrid");
 		});
 		

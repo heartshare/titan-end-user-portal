@@ -38,9 +38,6 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/main.css" />
 	<script type='text/javascript' src="${pageContext.request.contextPath}/main.js"></script>
 	
-	
-	<script type='text/javascript' src='${pageContext.request.contextPath}/Highcharts-2/js/highcharts.js'></script>
-	
 	<script type='text/javascript' src='${pageContext.request.contextPath}/global.js'></script>
 	
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/mainmenu.css" />
