@@ -3,7 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 	<display-name>Titan end user portal</display-name>
-	
 
 	<servlet>
 		<servlet-name>spring</servlet-name>
@@ -15,18 +14,6 @@
 		<servlet-name>spring</servlet-name>
 		<url-pattern>*.htm</url-pattern>
 	</servlet-mapping>
-
-	<!-- spring-ws -->
-	<servlet>
-		<servlet-name>titan-end-user-portal-ws</servlet-name>
-		<servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>titan-end-user-portal-ws</servlet-name>
-		<url-pattern>/services/*</url-pattern>
-	</servlet-mapping>
-	<!-- end spring-ws -->
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -70,7 +57,6 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
 	<!-- end spring security -->
 
 </web-app>
