@@ -4,7 +4,7 @@
 	<groupId>com.titanenduserportal</groupId>
 	<artifactId>titan-end-user-portal</artifactId>
 	<packaging>war</packaging>
-	<version>20140521</version>
+	<version>20140530</version>
 	<name>Titan end user portal</name>
 	<url>http://maven.apache.org</url>
 	<profiles>
