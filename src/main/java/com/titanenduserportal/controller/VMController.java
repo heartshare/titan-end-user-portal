@@ -3,6 +3,8 @@ package com.titanenduserportal.controller;
 import java.net.ConnectException;
 import java.util.Hashtable;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -35,7 +37,9 @@ public class VMController {
 			e.printStackTrace();
 		}
 
-		model.addAttribute("fuck", resultStr);
+		JSONObject json = JSONObject.fromObject(resultStr);
+
+		model.addAttribute("fuck", CommonLib.formatJSon(json.toString()));
 		return "/vm/index";
 	}
 

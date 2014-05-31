@@ -30,6 +30,10 @@ import org.hibernate.Transaction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.titanenduserportal.table.Role;
 import com.titanenduserportal.table.User;
 import com.titanenduserportal.table.UserGroup;
@@ -169,5 +173,12 @@ public class CommonLib {
 		String r = EntityUtils.toString(entityResponse);
 		client.close();
 		return r;
+	}
+
+	public static String formatJSon(String str) {
+		JsonParser parser = new JsonParser();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonElement el = parser.parse(str);
+		return gson.toJson(el);
 	}
 }
