@@ -39,7 +39,7 @@ public class VMController {
 
 		JSONObject json = JSONObject.fromObject(resultStr);
 
-		model.addAttribute("fuck", CommonLib.formatJSon(json.toString()));
+		model.addAttribute("fuck", CommonLib.formatJSon(json.toString()).replaceAll("\n", "<br>").replaceAll(" ", "&nbsp;&nbsp;"));
 		return "/vm/index";
 	}
 
