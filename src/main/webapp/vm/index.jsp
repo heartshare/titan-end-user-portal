@@ -23,7 +23,7 @@
 		</td>
 		<td valign="top">
 			<div class="box1">
-				<img src="temp.png" />
+				${fuck}
 			</div>
 		</td>
 	</tr>

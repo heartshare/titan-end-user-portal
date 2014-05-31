@@ -1,12 +1,29 @@
 package com.titanenduserportal;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.List;
 
+import org.apache.http.Consts;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -127,4 +144,30 @@ public class CommonLib {
 		return baos.toByteArray();
 	}
 
+	public static String sendPost(String url, Hashtable ht, File file) throws Exception {
+		CloseableHttpClient client = HttpClients.createDefault();
+		HttpPost post = new HttpPost(url);
+
+		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+
+		post.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8));
+
+		MultipartEntity entity = new MultipartEntity();
+		if (file != null) {
+			entity.addPart("image", new FileBody(file));
+		}
+		Enumeration<String> it = ht.keys();
+		while (it.hasMoreElements()) {
+			String key = it.nextElement();
+			String value = (String) ht.get(key);
+			entity.addPart(key, new StringBody(value, Charset.forName("UTF-8")));
+		}
+		post.setEntity(entity);
+
+		HttpResponse response = client.execute(post);
+		HttpEntity entityResponse = response.getEntity();
+		String r = EntityUtils.toString(entityResponse);
+		client.close();
+		return r;
+	}
 }

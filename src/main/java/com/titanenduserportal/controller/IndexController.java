@@ -40,7 +40,7 @@ public class IndexController {
 			CommonLib.initDB();
 		}
 
-		return "index";
+		return "/index";
 	}
 
 	@RequestMapping(value = "/login.htm", method = RequestMethod.POST)
@@ -73,7 +73,7 @@ public class IndexController {
 			// Create a new session and add the security context.
 			request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
 
-			return "redirect:/main/index.htm";
+			return "redirect:/vm/index.htm";
 		}
 	}
 

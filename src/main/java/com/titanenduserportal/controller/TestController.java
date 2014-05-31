@@ -16,7 +16,7 @@ public class TestController {
 	public String main(ModelMap model) {
 		model.addAttribute("username", CommonLib.getUsername());
 		model.addAttribute("authorities", CommonLib.getAuthorities());
-		return "test1";
+		return "/test1";
 	}
 
 }

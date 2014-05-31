@@ -59,7 +59,7 @@
 				<div class="white">
 					<header class="blue">
 						<ul>
-							<li><a href="../main/index.htm" <c:if test="${pageName == 'main'}">class="active"</c:if>>Server</a></li>
+							<li><a href="../vm/index.htm" <c:if test="${pageName == 'vm'}">class="active"</c:if>>VM</a></li>
 							<li><a href="javascript:void(0);">Image</a></li>
 							<li><a href="javascript:void(0);">Network</a></li>
 							<li><a href="javascript:void(0);">SSH Key</a></li>

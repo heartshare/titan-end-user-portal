@@ -29,7 +29,7 @@ public class LogController {
 	public String main(ModelMap model) {
 		model.addAttribute("username", CommonLib.getUsername());
 		model.addAttribute("authorities", CommonLib.getAuthorities());
-		return "log/index";
+		return "/log/index";
 	}
 
 	@RequestMapping(value = "/gridLog.htm", method = RequestMethod.GET)
@@ -79,6 +79,6 @@ public class LogController {
 
 		Gson gson = new Gson();
 		model.addAttribute("gridContent", gson.toJson(logs));
-		return "log/gridLog";
+		return "/log/gridLog";
 	}
 }
