@@ -23,7 +23,7 @@
 		</td>
 		<td valign="top">
 			<div class="box1">
-				${fuck}
+				${result}
 			</div>
 		</td>
 	</tr>

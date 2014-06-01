@@ -23,24 +23,25 @@ public class VMController {
 	@Secured("ROLE_LOGINED")
 	@RequestMapping(value = "/index.htm", method = RequestMethod.GET)
 	public String main(ModelMap model) {
-		model.addAttribute("username", CommonLib.getUsername());
-		model.addAttribute("authorities", CommonLib.getAuthorities());
-
-		Hashtable<String, String> ht = new Hashtable<String, String>();
-		ht.put("titanCommand", "from titan: nova list");
 		String resultStr = null;
 		try {
+			model.addAttribute("username", CommonLib.getUsername());
+			model.addAttribute("authorities", CommonLib.getAuthorities());
+
+			Hashtable<String, String> ht = new Hashtable<String, String>();
+			ht.put("titanCommand", "from titan: nova list");
 			resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm", ht, null);
+
+			JSONObject json = JSONObject.fromObject(resultStr);
+
+			model.addAttribute("result", CommonLib.formatJSon(json.toString()).replaceAll("\n", "<br>").replaceAll(" ", "&nbsp;&nbsp;"));
+			//		model.addAttribute("result", json.get("name"));
 		} catch (ConnectException e) {
-			resultStr = "Connection refused";
+			resultStr = "Connection refused : " + titanServerRestURL + "/rest/titan/sendCommand.htm";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		JSONObject json = JSONObject.fromObject(resultStr);
-
-		model.addAttribute("fuck", CommonLib.formatJSon(json.toString()).replaceAll("\n", "<br>").replaceAll(" ", "&nbsp;&nbsp;"));
-//		model.addAttribute("fuck", json.get("name"));
+		model.addAttribute("result", resultStr);
 		return "/vm/index";
 	}
 

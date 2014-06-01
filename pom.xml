@@ -21,6 +21,7 @@
 				<log4jUsername>titanportal</log4jUsername>
 				<log4jPassword>titanportal</log4jPassword>
 				<log4jDb>titanportal</log4jDb>
+				<titanServerRestURL>http://210.5.164.14:4447</titanServerRestURL>
 			</properties>
 		</profile>
 		<profile>
@@ -33,6 +34,7 @@
 				<log4jUsername>titanportal</log4jUsername>
 				<log4jPassword>titanportal</log4jPassword>
 				<log4jDb>titanportal</log4jDb>
+				<titanServerRestURL>http://192.168.100.9:4445</titanServerRestURL>
 			</properties>
 		</profile>
 		<profile>
@@ -42,9 +44,10 @@
 				<build.date>${maven.build.timestamp}</build.date>
 				<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 				<version>${project.version} demo</version>
-				<log4jUsername>titanportal-demo</log4jUsername>
-				<log4jPassword>titanportal-demo</log4jPassword>
-				<log4jDb>titanportal-demo</log4jDb>
+				<log4jUsername>titanportal</log4jUsername>
+				<log4jPassword>titanportal</log4jPassword>
+				<log4jDb>titanportal</log4jDb>
+				<titanServerRestURL>http://192.168.100.9:4445</titanServerRestURL>
 			</properties>
 		</profile>
 	</profiles>
