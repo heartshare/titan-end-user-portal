@@ -8,6 +8,12 @@
 			}
 		});
 		
+		$('#searchLog').focusout(function() {
+			if ($(this).val() == '') {
+				$('#searchLog').val('Search log');
+			}
+		});
+		
 		$('#searchLog').keypress(function(e) { 
 			if(e.which == 13) {
 				$('#searchLogButton').trigger('click');

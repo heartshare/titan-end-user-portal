@@ -12,6 +12,8 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 
+import net.sf.json.JSONObject;
+
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -181,4 +183,13 @@ public class CommonLib {
 		JsonElement el = parser.parse(str);
 		return gson.toJson(el);
 	}
+	
+	public static String getJSONString(JSONObject obj, String key, String returnValue) {
+		try {
+			return obj.getString(key);
+		} catch (Exception ex) {
+			return returnValue;
+		}
+	}
+
 }
