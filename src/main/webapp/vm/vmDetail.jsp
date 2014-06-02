@@ -50,15 +50,15 @@
 		padding: 10px;
 	}
 </style>
-<div algin="center">
-	<table border="0" width="100%" height="100%">
+<div align="center">
+	<table border="0" width="100%" height="100%" style="max-width:1200px;">
 		<tr>
-			<td valign="top" style="max-width:800px;">
+			<td valign="top">
 				<div class="box1" style="padding:20px; margin-left:40px; margin-right:10px;">
 					<a href="index.htm"><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/arrow_left.png">Back</a>
 					<br>
 					<br>
-					<span id="header">VM</span>
+					<span id="header">Virtual machine</span>
 					<br>
 					<h1>${name} - ${instanceName}</h1>
 					<table cellspacing="0" cellpadding="0" id="vmDetailTable">
@@ -104,7 +104,6 @@
 					<hr>
 					<br>
 					<h2>Flavor</h2>
-					<br>
 					<table cellspacing="0" cellpadding="0" id="vmDetailTable">
 						<tr>
 							<td>ID</td>

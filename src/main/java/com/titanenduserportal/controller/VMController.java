@@ -2,6 +2,7 @@ package com.titanenduserportal.controller;
 
 import java.net.ConnectException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -90,10 +91,13 @@ public class VMController {
 			model.addAttribute("username", CommonLib.getUsername());
 			model.addAttribute("authorities", CommonLib.getAuthorities());
 
-			resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm?titanCommand=" + URLEncoder.encode("from titan: nova list"), null, null);
+			Hashtable<String, String> parameters = new Hashtable<String, String>();
+			parameters.put("$InstanceId", instanceId);
+
+			resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm?titanCommand=" + URLEncoder.encode("from titan: nova show"), parameters, null);
 
 			//parse
-			//			System.out.println(CommonLib.formatJSon(resultStr));
+			System.out.println(CommonLib.formatJSon(resultStr));
 			JSONObject obj = JSONObject.fromObject(resultStr);
 			JSONObject base = JSONObject.fromObject(obj.getJSONObject("values").getJSONObject("result").getJSONObject("map").getJSONObject("result").getString("content")
 					.toString());
