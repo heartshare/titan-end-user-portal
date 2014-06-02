@@ -102,7 +102,6 @@
 					</table>
 					<br>
 					<hr>
-					<br>
 					<h2>Flavor</h2>
 					<table cellspacing="0" cellpadding="0" id="vmDetailTable">
 						<tr>
@@ -114,28 +113,41 @@
 							<td>${flavorName}</td>
 						</tr>
 						<tr>
-							<td>System Image</td>
-							<td>${image}</td>
+							<td>Vcpu</td>
+							<td>${flavorVcpus}</td>
 						</tr>
 						<tr>
-							<td>Flavor</td>
-							<td>${flavor}</td>
+							<td>Ram</td>
+							<td>${flavorRam} MB</td>
+						</tr>
+					</table>
+					<br>
+					<hr>
+					<h2>Disk</h2>
+					<table cellspacing="0" cellpadding="0" id="vmDetailTable">
+						<tr>
+							<td>ID</td>
+							<td>${glance_X_Image_Meta_Id}</td>
 						</tr>
 						<tr>
-							<td>created</td>
-							<td>${created}</td>
+							<td>Name</td>
+							<td>${glance_X_Image_Meta_Name}</td>
 						</tr>
 						<tr>
-							<td>tenant_id</td>
-							<td>${tenant_id}</td>
+							<td>Size</td>
+							<td>${glance_imagesize}</td>
 						</tr>
 						<tr>
-							<td>accessIPv4</td>
-							<td>${accessIPv4}</td>
+							<td>Ram</td>
+							<td>${flavorRam} MB</td>
 						</tr>
 						<tr>
-							<td>accessIPv6</td>
-							<td>${accessIPv6}</td>
+							<td>Created at</td>
+							<td>${glance_X_Image_Meta_Created_at}</td>
+						</tr>
+						<tr>
+							<td>Status</td>
+							<td>${glance_X_Image_Meta_Status}</td>
 						</tr>
 					</table>
 				</div>

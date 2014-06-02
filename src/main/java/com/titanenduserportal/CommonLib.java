@@ -195,4 +195,16 @@ public class CommonLib {
 		}
 	}
 
+	public static String convertFilesize(long filesize) {
+		if (filesize < 1024) {
+			return filesize + " bytes";
+		} else if (filesize >= 1024 * 1024 * 1024) {
+			return filesize / 1024 / 1024 / 1024 + " GB";
+		} else if (filesize >= 1024 && filesize < 1024 * 1024) {
+			return filesize / 1024 + " KB";
+		} else {
+			return filesize / 1024 / 1024 + " MB";
+		}
+	}
+
 }

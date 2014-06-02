@@ -131,6 +131,8 @@ public class VMController {
 			model.addAttribute("instanceName", CommonLib.getJSONString(server, "OS-EXT-SRV-ATTR:instance_name", ""));
 			model.addAttribute("name", CommonLib.getJSONString(server, "name", ""));
 
+			String imageId = CommonLib.getJSONString(server.getJSONObject("image"), "id", "");
+
 			if (!flavorId.equals("")) {
 				parameters = new Hashtable<String, String>();
 				parameters.put("titanCommand", "from titan: nova flavor-show");
@@ -139,7 +141,25 @@ public class VMController {
 				obj = JSONObject.fromObject(resultStr);
 				base = JSONObject.fromObject(obj.getJSONObject("values").getJSONObject("result").getJSONObject("map").getJSONObject("result").getString("content").toString());
 				JSONObject flavor = base.getJSONObject("flavor");
+				//				System.out.println(CommonLib.formatJSon(flavor.toString()));
 				model.addAttribute("flavorName", CommonLib.getJSONString(flavor, "name", ""));
+				model.addAttribute("flavorRam", CommonLib.getJSONString(flavor, "ram", ""));
+				model.addAttribute("flavorVcpus", CommonLib.getJSONString(flavor, "vcpus", ""));
+			}
+			if (!imageId.equals("")) {
+				parameters = new Hashtable<String, String>();
+				parameters.put("titanCommand", "from titan: glance image-show");
+				parameters.put("$ImageId", imageId);
+				resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm", parameters, null);
+				//				System.out.println(CommonLib.formatJSon(resultStr));
+				obj = JSONObject.fromObject(resultStr);
+				JSONArray headers = obj.getJSONObject("values").getJSONObject("result").getJSONObject("map").getJSONObject("result").getJSONArray("headers");
+				for (int x = 0; x < headers.size(); x++) {
+					JSONObject item = (JSONObject) headers.get(x);
+					System.out.println("glance_" + item.getString("name").replaceAll("-", "_") + "=" + item.getString("value"));
+					model.addAttribute("glance_" + item.getString("name").replaceAll("-", "_"), item.getString("value"));
+				}
+				model.addAttribute("glance_imagesize", CommonLib.convertFilesize(Long.parseLong(model.get("glance_Content_Length").toString())));
 			}
 		} catch (ConnectException e) {
 			resultStr = "Connection refused : " + titanServerRestURL + "/rest/titan/sendCommand.htm";
