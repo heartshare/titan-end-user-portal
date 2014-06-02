@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -162,11 +163,13 @@ public class CommonLib {
 		if (file != null) {
 			entity.addPart("image", new FileBody(file));
 		}
-		Enumeration<String> it = ht.keys();
-		while (it.hasMoreElements()) {
-			String key = it.nextElement();
-			String value = (String) ht.get(key);
-			entity.addPart(key, new StringBody(value, Charset.forName("UTF-8")));
+		if (ht != null) {
+			Enumeration<String> it = ht.keys();
+			while (it.hasMoreElements()) {
+				String key = it.nextElement();
+				String value = (String) ht.get(key);
+				entity.addPart(key, new StringBody(value, Charset.forName("UTF-8")));
+			}
 		}
 		post.setEntity(entity);
 
@@ -183,7 +186,7 @@ public class CommonLib {
 		JsonElement el = parser.parse(str);
 		return gson.toJson(el);
 	}
-	
+
 	public static String getJSONString(JSONObject obj, String key, String returnValue) {
 		try {
 			return obj.getString(key);

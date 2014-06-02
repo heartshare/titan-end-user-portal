@@ -2,7 +2,7 @@
 
 <style>
 	#serverTable td{
-		border-bottom: 1px solid #cccccc;
+		border-bottom: 1px solid #dedede;
 		padding-top: 10px;
 		padding-bottom: 10px;
 		vertical-align: middle;
@@ -60,7 +60,7 @@
 					<c:forEach items="${result}" var="item">
 						<tr>
 							<td><input type="checkbox" /></td>
-							<td align="left"><a href="vmDetail.htm?id=<c:out value="${item.id}"/>"><c:out value="${item.instanceName}"/></a></td>
+							<td align="left"><a href="vmDetail.htm?instanceId=<c:out value="${item.id}"/>"><c:out value="${item.instanceName}"/></a></td>
 							<td align="left">
 								<c:choose>
 									<c:when test="${item.address == ''}">
