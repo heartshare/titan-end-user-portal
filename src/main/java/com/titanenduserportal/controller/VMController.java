@@ -91,54 +91,55 @@ public class VMController {
 			model.addAttribute("username", CommonLib.getUsername());
 			model.addAttribute("authorities", CommonLib.getAuthorities());
 
+			// nova show
 			Hashtable<String, String> parameters = new Hashtable<String, String>();
+			parameters.put("titanCommand", "from titan: nova show");
 			parameters.put("$InstanceId", instanceId);
-
-			resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm?titanCommand=" + URLEncoder.encode("from titan: nova show"), parameters, null);
-
-			//parse
-			System.out.println(CommonLib.formatJSon(resultStr));
+			resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm", parameters, null);
+			//			System.out.println(CommonLib.formatJSon(resultStr));
 			JSONObject obj = JSONObject.fromObject(resultStr);
 			JSONObject base = JSONObject.fromObject(obj.getJSONObject("values").getJSONObject("result").getJSONObject("map").getJSONObject("result").getString("content")
 					.toString());
-			JSONArray servers = base.getJSONArray("servers");
-			for (int x = 0; x < servers.size(); x++) {
-				obj = servers.getJSONObject(x);
-				try {
-					String id = CommonLib.getJSONString(obj, "id", "");
-					if (id.equals(instanceId)) {
-						model.addAttribute("id", id);
-						//						System.out.println(CommonLib.formatJSon(obj.toString()));
+			JSONObject server = base.getJSONObject("server");
+			//			System.out.println(CommonLib.formatJSon(server.toString()));
+			String id = CommonLib.getJSONString(server, "id", "");
+			model.addAttribute("id", id);
 
-						String address = "";
-						try {
-							for (int z = 0; z < obj.getJSONObject("addresses").getJSONArray("private").size(); z++) {
-								JSONObject link = obj.getJSONObject("addresses").getJSONArray("private").getJSONObject(z);
-								address += "type=" + link.getString("OS-EXT-IPS:type") + ", ";
-								address += "addr=" + link.getString("addr") + ", ";
-								address += "version=" + link.getString("version") + ", ";
-							}
-						} catch (Exception ex) {
-						}
-						model.addAttribute("address", address);
-						model.addAttribute("status", CommonLib.getJSONString(obj, "status", ""));
-						model.addAttribute("updated", CommonLib.getJSONString(obj, "updated", ""));
-						model.addAttribute("hostId", CommonLib.getJSONString(obj, "hostId", ""));
-						model.addAttribute("image", CommonLib.getJSONString(obj.getJSONObject("image"), "id", ""));
-						model.addAttribute("flavor", CommonLib.getJSONString(obj.getJSONObject("flavor"), "id", ""));
-						model.addAttribute("name", CommonLib.getJSONString(obj, "name", ""));
-						model.addAttribute("created", CommonLib.getJSONString(obj, "created", ""));
-						model.addAttribute("tenant_id", CommonLib.getJSONString(obj, "tenant_id", ""));
-						model.addAttribute("accessIPv4", CommonLib.getJSONString(obj, "accessIPv4", ""));
-						model.addAttribute("accessIPv6", CommonLib.getJSONString(obj, "accessIPv6", ""));
-						model.addAttribute("fault", CommonLib.getJSONString(obj.getJSONObject("fault"), "message", ""));
-						model.addAttribute("instanceName", CommonLib.getJSONString(obj, "OS-EXT-SRV-ATTR:instance_name", ""));
-						model.addAttribute("name", CommonLib.getJSONString(obj, "name", ""));
-						break;
-					}
-				} catch (Exception ex) {
-					ex.printStackTrace();
+			String address = "";
+			try {
+				for (int z = 0; z < server.getJSONObject("addresses").getJSONArray("private").size(); z++) {
+					JSONObject link = server.getJSONObject("addresses").getJSONArray("private").getJSONObject(z);
+					address += "type=" + link.getString("OS-EXT-IPS:type") + ", ";
+					address += "addr=" + link.getString("addr") + ", ";
+					address += "version=" + link.getString("version") + ", ";
 				}
+			} catch (Exception ex) {
+			}
+			model.addAttribute("address", address);
+			model.addAttribute("status", CommonLib.getJSONString(server, "status", ""));
+			model.addAttribute("updated", CommonLib.getJSONString(server, "updated", ""));
+			model.addAttribute("hostId", CommonLib.getJSONString(server, "hostId", ""));
+			model.addAttribute("image", CommonLib.getJSONString(server.getJSONObject("image"), "id", ""));
+			String flavorId = CommonLib.getJSONString(server.getJSONObject("flavor"), "id", "");
+			model.addAttribute("flavor", flavorId);
+			model.addAttribute("name", CommonLib.getJSONString(server, "name", ""));
+			model.addAttribute("created", CommonLib.getJSONString(server, "created", ""));
+			model.addAttribute("tenant_id", CommonLib.getJSONString(server, "tenant_id", ""));
+			model.addAttribute("accessIPv4", CommonLib.getJSONString(server, "accessIPv4", ""));
+			model.addAttribute("accessIPv6", CommonLib.getJSONString(server, "accessIPv6", ""));
+			model.addAttribute("fault", CommonLib.getJSONString(server.getJSONObject("fault"), "message", ""));
+			model.addAttribute("instanceName", CommonLib.getJSONString(server, "OS-EXT-SRV-ATTR:instance_name", ""));
+			model.addAttribute("name", CommonLib.getJSONString(server, "name", ""));
+
+			if (!flavorId.equals("")) {
+				parameters = new Hashtable<String, String>();
+				parameters.put("titanCommand", "from titan: nova flavor-show");
+				parameters.put("$FlavorId", flavorId);
+				resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm", parameters, null);
+				obj = JSONObject.fromObject(resultStr);
+				base = JSONObject.fromObject(obj.getJSONObject("values").getJSONObject("result").getJSONObject("map").getJSONObject("result").getString("content").toString());
+				JSONObject flavor = base.getJSONObject("flavor");
+				model.addAttribute("flavorName", CommonLib.getJSONString(flavor, "name", ""));
 			}
 		} catch (ConnectException e) {
 			resultStr = "Connection refused : " + titanServerRestURL + "/rest/titan/sendCommand.htm";

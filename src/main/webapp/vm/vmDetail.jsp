@@ -107,16 +107,11 @@
 					<table cellspacing="0" cellpadding="0" id="vmDetailTable">
 						<tr>
 							<td>ID</td>
-							<td>${id}</td>
+							<td>${flavor}</td>
 						</tr>
 						<tr>
-							<td>Server Status</td>
-							<td>
-								${status}
-								<c:if test="${status=='ERROR' }">
-									&nbsp;${fault}
-								</c:if>
-							</td>
+							<td>Name</td>
+							<td>${flavorName}</td>
 						</tr>
 						<tr>
 							<td>System Image</td>
