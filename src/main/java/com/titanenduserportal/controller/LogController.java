@@ -7,6 +7,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.annotation.Secured;
@@ -40,7 +41,7 @@ public class LogController {
 			dateTo.setMinutes(59);
 			dateTo.setSeconds(59);
 		}
-		System.out.println(dateFrom + "," + dateTo);
+		//		System.out.println(dateFrom + "," + dateTo);
 		Session session = HibernateUtil.openSession();
 		//		Query query;
 		//		if (searchString == null || searchString.equals("")) {
@@ -64,10 +65,14 @@ public class LogController {
 		if (dateTo != null) {
 			criteria.add(Restrictions.le("date", dateTo));
 		}
-
 		criteria.setCacheable(false);
 		criteria.setFirstResult((page - 1) * rows);
 		criteria.setMaxResults(rows);
+		if (sord.equals("asc")) {
+			criteria.addOrder(Order.asc(sidx));
+		} else {
+			criteria.addOrder(Order.desc(sidx));
+		}
 		List<Log> logs = criteria.list();
 
 		int maxNoOfRow = Integer.parseInt(session.createSQLQuery("select count(*) from `log`").list().get(0).toString());

@@ -38,14 +38,14 @@
 		jQuery("#logGrid").jqGrid({
 			url:'gridLog.htm',
 			datatype: "xml",
-			colNames:['ID', 'Date', 'Username', 'Priority', 'Category', 'Message'],
+			colNames:['Id', 'Date', 'Username', 'Priority', 'Category', 'Message'],
 			colModel:[
 				{name:'ID',index:'logID', width:70, align: 'center'},
-				{name:'Date',index:'Date', width:200, align: 'center'},
-				{name:'Username',index:'Username', width:150, align: 'center'},
-				{name:'Priority',index:'Priority', width:80, align: 'center'},
-				{name:'Category',index:'Category', width:400, align: 'left'},
-				{name:'Message',index:'Message', width:850, align: 'left'}
+				{name:'Date',index:'date', width:200, align: 'center'},
+				{name:'Username',index:'username', width:150, align: 'center'},
+				{name:'Priority',index:'priority', width:80, align: 'center'},
+				{name:'Category',index:'category', width:400, align: 'left'},
+				{name:'Message',index:'message', width:850, align: 'left'}
 			],
 			hidegrid: false,
 			shrinkToFit:true,

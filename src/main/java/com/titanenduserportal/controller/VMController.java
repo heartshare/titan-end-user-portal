@@ -2,7 +2,6 @@ package com.titanenduserportal.controller;
 
 import java.net.ConnectException;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -27,14 +26,12 @@ public class VMController {
 	@Secured("ROLE_LOGINED")
 	@RequestMapping(value = "/index.htm", method = RequestMethod.GET)
 	public String main(ModelMap model) {
-		String resultStr = null;
-		String resultFlavorStr = null;
+		String error = null;
 		try {
 			model.addAttribute("username", CommonLib.getUsername());
 			model.addAttribute("authorities", CommonLib.getAuthorities());
 
-			resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm?titanCommand=" + URLEncoder.encode("from titan: nova list"), null, null);
-			resultFlavorStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm?titanCommand=" + URLEncoder.encode("from titan: nova flavor-list"), null, null);
+			String resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm?titanCommand=" + URLEncoder.encode("from titan: nova list"), null, null);
 
 			//parse
 			//			System.out.println(CommonLib.formatJSon(resultStr));
@@ -49,11 +46,12 @@ public class VMController {
 					Hashtable<String, String> ht = new Hashtable<String, String>();
 					String address = "";
 					try {
-						for (int z = 0; z < obj.getJSONObject("addresses").getJSONArray("private").size(); z++) {
-							JSONObject link = obj.getJSONObject("addresses").getJSONArray("private").getJSONObject(z);
-							address += "type=" + link.getString("OS-EXT-IPS:type") + ", ";
-							address += "addr=" + link.getString("addr") + ", ";
-							address += "version=" + link.getString("version") + ", ";
+						JSONArray addressArray = obj.getJSONObject("addresses").getJSONArray("vmnet");
+						for (int z = 0; z < addressArray.size(); z++) {
+							JSONObject link = addressArray.getJSONObject(z);
+							//							address += "type=" + link.getString("OS-EXT-IPS:type") + ", ";
+							address += link.getString("addr");
+							//							address += "version=" + link.getString("version") + ", ";
 						}
 					} catch (Exception ex) {
 					}
@@ -71,16 +69,30 @@ public class VMController {
 					String status = CommonLib.getJSONString(obj, "status", "");
 					ht.put("status", status);
 					v.add(ht);
+
+					String flavorId = CommonLib.getJSONString(obj.getJSONObject("flavor"), "id", "");
+					Hashtable<String, String> parameters = new Hashtable<String, String>();
+					parameters.put("titanCommand", "from titan: nova flavor-show");
+					parameters.put("$FlavorId", flavorId);
+					resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm", parameters, null);
+					obj = JSONObject.fromObject(resultStr);
+					base = JSONObject.fromObject(obj.getJSONObject("values").getJSONObject("result").getJSONObject("map").getJSONObject("result").getString("content").toString());
+					JSONObject flavor = base.getJSONObject("flavor");
+					//				System.out.println(CommonLib.formatJSon(flavor.toString()));
+					model.addAttribute("flavorName", CommonLib.getJSONString(flavor, "name", ""));
+					model.addAttribute("flavorRam", CommonLib.getJSONString(flavor, "ram", ""));
+					model.addAttribute("flavorVcpus", CommonLib.getJSONString(flavor, "vcpus", ""));
+
 				} catch (Exception ex) {
-					ex.printStackTrace();
 				}
 			}
 			model.addAttribute("result", v);
 		} catch (ConnectException e) {
-			resultStr = "Connection refused : " + titanServerRestURL + "/rest/titan/sendCommand.htm";
+			error = "Connection refused : " + titanServerRestURL + "/rest/titan/sendCommand.htm";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		model.addAttribute("error", error);
 		return "/vm/index";
 	}
 
@@ -96,7 +108,6 @@ public class VMController {
 			parameters.put("titanCommand", "from titan: nova show");
 			parameters.put("$InstanceId", instanceId);
 			resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm", parameters, null);
-			//			System.out.println(CommonLib.formatJSon(resultStr));
 			JSONObject obj = JSONObject.fromObject(resultStr);
 			JSONObject base = JSONObject.fromObject(obj.getJSONObject("values").getJSONObject("result").getJSONObject("map").getJSONObject("result").getString("content")
 					.toString());
@@ -107,11 +118,12 @@ public class VMController {
 
 			String address = "";
 			try {
-				for (int z = 0; z < server.getJSONObject("addresses").getJSONArray("private").size(); z++) {
-					JSONObject link = server.getJSONObject("addresses").getJSONArray("private").getJSONObject(z);
-					address += "type=" + link.getString("OS-EXT-IPS:type") + ", ";
-					address += "addr=" + link.getString("addr") + ", ";
-					address += "version=" + link.getString("version") + ", ";
+				JSONArray addressArray = server.getJSONObject("addresses").getJSONArray("vmnet");
+				for (int z = 0; z < addressArray.size(); z++) {
+					JSONObject link = addressArray.getJSONObject(z);
+					//					address += "type=" + link.getString("OS-EXT-IPS:type") + ", ";
+					address += link.getString("addr");
+					//					address += "version=" + link.getString("version") + ", ";
 				}
 			} catch (Exception ex) {
 			}
@@ -156,7 +168,6 @@ public class VMController {
 				JSONArray headers = obj.getJSONObject("values").getJSONObject("result").getJSONObject("map").getJSONObject("result").getJSONArray("headers");
 				for (int x = 0; x < headers.size(); x++) {
 					JSONObject item = (JSONObject) headers.get(x);
-					System.out.println("glance_" + item.getString("name").replaceAll("-", "_") + "=" + item.getString("value"));
 					model.addAttribute("glance_" + item.getString("name").replaceAll("-", "_"), item.getString("value"));
 				}
 				model.addAttribute("glance_imagesize", CommonLib.convertFilesize(Long.parseLong(model.get("glance_Content_Length").toString())));

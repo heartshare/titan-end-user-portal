@@ -63,7 +63,7 @@
 					<h1>${name} - ${instanceName}</h1>
 					<table cellspacing="0" cellpadding="0" id="vmDetailTable">
 						<tr>
-							<td>ID</td>
+							<td width="150">ID</td>
 							<td>${id}</td>
 						</tr>
 						<tr>
@@ -84,19 +84,19 @@
 							<td>${flavor}</td>
 						</tr>
 						<tr>
-							<td>created</td>
+							<td>Created</td>
 							<td>${created}</td>
 						</tr>
 						<tr>
-							<td>tenant_id</td>
+							<td>Tenant Id</td>
 							<td>${tenant_id}</td>
 						</tr>
 						<tr>
-							<td>accessIPv4</td>
-							<td>${accessIPv4}</td>
+							<td>IPv4</td>
+							<td>${accessIPv4} ${address}</td>
 						</tr>
 						<tr>
-							<td>accessIPv6</td>
+							<td>IPv6</td>
 							<td>${accessIPv6}</td>
 						</tr>
 					</table>
@@ -105,7 +105,7 @@
 					<h2>Flavor</h2>
 					<table cellspacing="0" cellpadding="0" id="vmDetailTable">
 						<tr>
-							<td>ID</td>
+							<td width="150">ID</td>
 							<td>${flavor}</td>
 						</tr>
 						<tr>
@@ -126,7 +126,7 @@
 					<h2>Disk</h2>
 					<table cellspacing="0" cellpadding="0" id="vmDetailTable">
 						<tr>
-							<td>ID</td>
+							<td width="150">ID</td>
 							<td>${glance_X_Image_Meta_Id}</td>
 						</tr>
 						<tr>
@@ -158,7 +158,7 @@
 					<h4>LOG INTO YOUR SERVER NOW</h4>
 					For Linux, use the command below to log in via SSH. Open a terminal application and run:<br>
 					<br>
-					<code>ssh root@119.9.72.168</code>
+					<code>ssh root@${address}</code>
 					<br><br>
 					More Remote Login Commands »<br>
 					<br>
