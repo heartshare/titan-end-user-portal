@@ -113,10 +113,8 @@
 		</td>
 	</tr>
 </table>
-<div id="createVMDialog" title="Create vm" style="display: none;">
-	<p>create vm</p>
-</div>
-<div id="deleteVMDialog" title="Delete vm" style="display: none;">
-	<p>delete vm</p>
-</div>
+
+<jsp:include page="createVMDialog.jsp" />
+<jsp:include page="deleteVMDialog.jsp" />
+
 <%@ include file="../template1Footer.jsp"%>
