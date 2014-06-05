@@ -3,11 +3,13 @@ package com.titanenduserportal.controller;
 import java.net.ConnectException;
 import java.net.URLEncoder;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.titanenduserportal.CommonLib;
+import com.titanenduserportal.HibernateUtil;
+import com.titanenduserportal.table.Region;
 
 @Controller
 @RequestMapping("/vm")
@@ -92,6 +96,11 @@ public class VMController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		Session session = HibernateUtil.openSession();
+		model.addAttribute("regions", session.createQuery("from Region").list());
+		System.out.println(session.createQuery("from Region").list());
+
 		model.addAttribute("error", error);
 		return "/vm/index";
 	}

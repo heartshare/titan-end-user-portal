@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -37,6 +36,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.titanenduserportal.table.Region;
 import com.titanenduserportal.table.Role;
 import com.titanenduserportal.table.User;
 import com.titanenduserportal.table.UserGroup;
@@ -91,6 +91,23 @@ public class CommonLib {
 			session.save(role2);
 
 			session.save(user);
+
+			Region region = new Region();
+			region.setName("Hong Kong");
+			region.setDescription("Hong Kong SAR");
+			session.save(region);
+
+			region = new Region();
+			region.setName("USA");
+			region.setDescription("United States Of America");
+			session.save(region);
+			
+			region = new Region();
+			region.setName("Europe");
+			region.setDescription("West Europe");
+			session.save(region);
+			
+
 		} catch (Exception ex) {
 			logger.error(ex.getMessage());
 		} finally {
