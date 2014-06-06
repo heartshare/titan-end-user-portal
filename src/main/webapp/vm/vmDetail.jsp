@@ -186,4 +186,5 @@
 		</tr>
 	</table>
 </div>
+<br>
 <%@ include file="../template1Footer.jsp" %>

@@ -3,7 +3,6 @@ package com.titanenduserportal.controller;
 import java.net.ConnectException;
 import java.net.URLEncoder;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Vector;
 
 import net.sf.json.JSONArray;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.titanenduserportal.CommonLib;
 import com.titanenduserportal.HibernateUtil;
-import com.titanenduserportal.table.Region;
 
 @Controller
 @RequestMapping("/vm")
@@ -35,15 +33,34 @@ public class VMController {
 			model.addAttribute("username", CommonLib.getUsername());
 			model.addAttribute("authorities", CommonLib.getAuthorities());
 
-			String resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm?titanCommand=" + URLEncoder.encode("from titan: nova list"), null, null);
+			String resultStr;
 
 			//parse
 			//			System.out.println(CommonLib.formatJSon(resultStr));
-			JSONObject obj = JSONObject.fromObject(resultStr);
-			JSONObject base = JSONObject.fromObject(obj.getJSONObject("values").getJSONObject("result").getJSONObject("map").getJSONObject("result").getString("content")
-					.toString());
+			JSONObject obj;
+			JSONObject base;
+
+			resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm?titanCommand=" + URLEncoder.encode("from titan: nova flavor-list"), null, null);
+			obj = JSONObject.fromObject(resultStr);
+			base = JSONObject.fromObject(obj.getJSONObject("values").getJSONObject("result").getJSONObject("map").getJSONObject("result").getString("content").toString());
+			JSONArray flavorsArr = base.getJSONArray("flavors");
+			Hashtable<String, Hashtable<String, String>> flavors = new Hashtable<String, Hashtable<String, String>>();
+			for (int x = 0; x < flavorsArr.size(); x++) {
+				JSONObject flavor = flavorsArr.getJSONObject(x);
+				Hashtable<String, String> ht = new Hashtable<String, String>();
+				ht.put("name", flavor.getString("name"));
+				ht.put("ram", flavor.getString("ram") + "MB");
+				ht.put("disk", flavor.getString("disk") + "GB");
+				ht.put("vcpus", flavor.getString("vcpus"));
+				flavors.put(flavor.getString("id"), ht);
+			}
+			model.addAttribute("flavors", flavors);
+
+			resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm?titanCommand=" + URLEncoder.encode("from titan: nova list"), null, null);
+			obj = JSONObject.fromObject(resultStr);
+			base = JSONObject.fromObject(obj.getJSONObject("values").getJSONObject("result").getJSONObject("map").getJSONObject("result").getString("content").toString());
 			JSONArray servers = base.getJSONArray("servers");
-			Vector<Hashtable<String, String>> v = new Vector<Hashtable<String, String>>();
+			Vector<Hashtable<String, String>> instances = new Vector<Hashtable<String, String>>();
 			for (int x = 0; x < servers.size(); x++) {
 				obj = servers.getJSONObject(x);
 				try {
@@ -72,25 +89,46 @@ public class VMController {
 
 					String status = CommonLib.getJSONString(obj, "status", "");
 					ht.put("status", status);
-					v.add(ht);
+					instances.add(ht);
 
 					String flavorId = CommonLib.getJSONString(obj.getJSONObject("flavor"), "id", "");
-					Hashtable<String, String> parameters = new Hashtable<String, String>();
-					parameters.put("titanCommand", "from titan: nova flavor-show");
-					parameters.put("$FlavorId", flavorId);
-					resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm", parameters, null);
-					obj = JSONObject.fromObject(resultStr);
-					base = JSONObject.fromObject(obj.getJSONObject("values").getJSONObject("result").getJSONObject("map").getJSONObject("result").getString("content").toString());
-					JSONObject flavor = base.getJSONObject("flavor");
-					//				System.out.println(CommonLib.formatJSon(flavor.toString()));
-					model.addAttribute("flavorName", CommonLib.getJSONString(flavor, "name", ""));
-					model.addAttribute("flavorRam", CommonLib.getJSONString(flavor, "ram", ""));
-					model.addAttribute("flavorVcpus", CommonLib.getJSONString(flavor, "vcpus", ""));
-
+					//					Hashtable<String, String> parameters = new Hashtable<String, String>();
+					//					parameters.put("titanCommand", "from titan: nova flavor-show");
+					//					parameters.put("$FlavorId", flavorId);
+					//					if (!cachedFlavors.keySet().contains(flavorId)) {
+					//						resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm", parameters, null);
+					//						cachedFlavors.put(flavorId, resultStr);
+					//					} else {
+					//						resultStr = cachedFlavors.get(flavorId);
+					//					}
+					//					obj = JSONObject.fromObject(resultStr);
+					//					base = JSONObject.fromObject(obj.getJSONObject("values").getJSONObject("result").getJSONObject("map").getJSONObject("result").getString("content").toString());
+					//					JSONObject flavor = base.getJSONObject("flavor");
+					model.addAttribute("flavorName", flavors.get(flavorId).get("name"));
+					model.addAttribute("flavorRam", flavors.get(flavorId).get("ram"));
+					model.addAttribute("flavorVcpus", flavors.get(flavorId).get("vcpus"));
 				} catch (Exception ex) {
+					ex.printStackTrace();
 				}
 			}
-			model.addAttribute("result", v);
+			model.addAttribute("instances", instances);
+
+			resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm?titanCommand=" + URLEncoder.encode("from titan: glance image-list"), null, null);
+			obj = JSONObject.fromObject(resultStr);
+			base = JSONObject.fromObject(obj.getJSONObject("values").getJSONObject("result").getJSONObject("map").getJSONObject("result").getString("content").toString());
+			JSONArray imagesArr = base.getJSONArray("images");
+			Vector<Hashtable<String, String>> images = new Vector<Hashtable<String, String>>();
+			for (int x = 0; x < imagesArr.size(); x++) {
+				JSONObject image = imagesArr.getJSONObject(x);
+				if (image.getString("status").equals("active")) {
+					Hashtable<String, String> ht = new Hashtable<String, String>();
+					ht.put("name", image.getString("name"));
+					ht.put("size", CommonLib.convertFilesize(Long.parseLong(image.getString("size"))));
+					images.add(ht);
+				}
+			}
+			model.addAttribute("images", images);
+
 		} catch (ConnectException e) {
 			error = "Connection refused : " + titanServerRestURL + "/rest/titan/sendCommand.htm";
 		} catch (Exception e) {
@@ -99,8 +137,7 @@ public class VMController {
 
 		Session session = HibernateUtil.openSession();
 		model.addAttribute("regions", session.createQuery("from Region").list());
-		System.out.println(session.createQuery("from Region").list());
-
+		session.close();
 		model.addAttribute("error", error);
 		return "/vm/index";
 	}

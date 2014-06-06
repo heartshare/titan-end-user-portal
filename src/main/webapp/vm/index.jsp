@@ -29,8 +29,8 @@
 
 		$('#createVM').click(function(e) {
 			$("#createVMDialog").dialog({
-				width : 500,
-				height : 500,
+				width : 400,
+				height : 350,
 				modal : true
 			});
 		});
@@ -77,7 +77,7 @@
 								<th>vCpu</th>
 								<th>Ram</th>
 							</tr>
-							<c:forEach items="${result}" var="item">
+							<c:forEach items="${instances}" var="item">
 								<tr>
 									<td><input type="checkbox" /></td>
 									<td align="left">
