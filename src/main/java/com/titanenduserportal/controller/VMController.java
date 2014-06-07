@@ -107,6 +107,7 @@ public class VMController {
 					model.addAttribute("flavorName", flavors.get(flavorId).get("name"));
 					model.addAttribute("flavorRam", flavors.get(flavorId).get("ram"));
 					model.addAttribute("flavorVcpus", flavors.get(flavorId).get("vcpus"));
+					model.addAttribute("flavorDisk", flavors.get(flavorId).get("disk"));
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
@@ -122,22 +123,21 @@ public class VMController {
 				JSONObject image = imagesArr.getJSONObject(x);
 				if (image.getString("status").equals("active")) {
 					Hashtable<String, String> ht = new Hashtable<String, String>();
+					ht.put("id", image.getString("id"));
 					ht.put("name", image.getString("name"));
 					ht.put("size", CommonLib.convertFilesize(Long.parseLong(image.getString("size"))));
 					images.add(ht);
 				}
 			}
 			model.addAttribute("images", images);
-
+			model.addAttribute("titanServerRestURL", titanServerRestURL);
 		} catch (ConnectException e) {
 			error = "Connection refused : " + titanServerRestURL + "/rest/titan/sendCommand.htm";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		Session session = HibernateUtil.openSession();
-		model.addAttribute("regions", session.createQuery("from Region").list());
-		session.close();
+		model.addAttribute("regions", HibernateUtil.createQuery("from Region"));
 		model.addAttribute("error", error);
 		return "/vm/index";
 	}
@@ -201,8 +201,9 @@ public class VMController {
 				JSONObject flavor = base.getJSONObject("flavor");
 				//				System.out.println(CommonLib.formatJSon(flavor.toString()));
 				model.addAttribute("flavorName", CommonLib.getJSONString(flavor, "name", ""));
-				model.addAttribute("flavorRam", CommonLib.getJSONString(flavor, "ram", ""));
+				model.addAttribute("flavorRam", CommonLib.getJSONString(flavor, "ram", "") + "MB");
 				model.addAttribute("flavorVcpus", CommonLib.getJSONString(flavor, "vcpus", ""));
+				model.addAttribute("flavorDisk", CommonLib.getJSONString(flavor, "disk", "") + "GB");
 			}
 			if (!imageId.equals("")) {
 				parameters = new Hashtable<String, String>();

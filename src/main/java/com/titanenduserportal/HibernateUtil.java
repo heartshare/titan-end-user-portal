@@ -58,4 +58,11 @@ public class HibernateUtil {
 		getSessionFactory().close();
 	}
 
+	public static List createQuery(String query) {
+		Session session = openSession();
+		List list = session.createQuery(query).list();
+		session.close();
+		return list;
+	}
+
 }

@@ -30,12 +30,18 @@
 		$('#createVM').click(function(e) {
 			$("#createVMDialog").dialog({
 				width : 400,
-				height : 350,
+				height : 320,
 				modal : true
 			});
 		});
 
 		$('#deleteVM').click(function(e) {
+			$('#serverTable input[type=checkbox]').each(function(){
+				var checkbox=$(this);
+				if (checkbox.attr('checked')){
+					alert($(this).id);
+				}
+			});
 			$("#deleteVMDialog").dialog({
 				height : 140,
 				modal : true
@@ -45,7 +51,7 @@
 </script>
 <table border="0" width="100%" height="100%">
 	<tr>
-		<td valign="top" align="left" width="350">
+		<td valign="top" align="left" width="200" style="padding-left: 40px; padding-right: 20px;">
 			<div class="menu-container">
 				<div class="nav">
 					Functions
@@ -76,12 +82,13 @@
 								<th>Flavor</th>
 								<th>vCpu</th>
 								<th>Ram</th>
+								<th>Disk</th>
 							</tr>
 							<c:forEach items="${instances}" var="item">
 								<tr>
-									<td><input type="checkbox" /></td>
+									<td><input id="${item.id}" type="checkbox" /></td>
 									<td align="left">
-										<a href="vmDetail.htm?instanceId=<c:out value="${item.id}"/>"><c:out value="${item.instanceName}" /></a>
+										<a href="vmDetail.htm?instanceId=<c:out value="${item.id}"/>"><c:out value="${item.name}" /></a>
 									</td>
 									<td align="left">
 										<c:choose>
@@ -104,6 +111,7 @@
 									<td align="center">${flavorName}</td>
 									<td align="center">${flavorVcpus}</td>
 									<td align="center">${flavorRam}</td>
+									<td align="center">${flavorDisk}</td>
 								</tr>
 							</c:forEach>
 						</table>

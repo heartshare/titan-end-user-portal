@@ -118,7 +118,11 @@
 						</tr>
 						<tr>
 							<td>Ram</td>
-							<td>${flavorRam} MB</td>
+							<td>${flavorRam}</td>
+						</tr>
+						<tr>
+							<td>Disk</td>
+							<td>${flavorDisk}</td>
 						</tr>
 					</table>
 					<br>
@@ -136,10 +140,6 @@
 						<tr>
 							<td>Size</td>
 							<td>${glance_imagesize}</td>
-						</tr>
-						<tr>
-							<td>Ram</td>
-							<td>${flavorRam} MB</td>
 						</tr>
 						<tr>
 							<td>Created at</td>

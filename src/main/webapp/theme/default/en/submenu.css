@@ -27,7 +27,7 @@ Check out more of my work at: http://dribbble.com/RyanBishop
 .menu-container {
   display: block;
   position: relative;
-  width: 300px;
+  /*width: 300px;*/
   background-color: #f3f0ef;
   margin: 5px auto 0;
   padding: 0;
