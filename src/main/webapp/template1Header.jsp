@@ -60,7 +60,7 @@
 					<header class="blue">
 						<ul>
 							<li><a href="../vm/index.htm" <c:if test="${pageName == 'vm'}">class="active"</c:if>>VM</a></li>
-							<li><a href="javascript:void(0);">Image</a></li>
+							<li><a href="../image/index.htm" <c:if test="${pageName == 'image'}">class="active"</c:if>>Image</a></li>
 							<li><a href="javascript:void(0);">Network</a></li>
 							<li><a href="javascript:void(0);">SSH Key</a></li>
 							<li><a href="javascript:void(0);">Block storage</a></li>

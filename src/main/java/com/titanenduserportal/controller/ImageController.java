@@ -19,8 +19,8 @@ import com.titanenduserportal.CommonLib;
 import com.titanenduserportal.HibernateUtil;
 
 @Controller
-@RequestMapping("/vm")
-public class VMController {
+@RequestMapping("/image")
+public class ImageController {
 	@Value("${titanServerRestURL}")
 	private String titanServerRestURL;
 
@@ -129,7 +129,7 @@ public class VMController {
 		model.addAttribute("regions", HibernateUtil.createQuery("from Region"));
 		model.addAttribute("error", error);
 		model.addAttribute("vmName", (vmName == null || vmName.equals("")) ? "Search vm" : vmName);
-		return "/vm/index";
+		return "/image/index";
 	}
 
 	@RequestMapping(value = "/vmDetail.htm", method = RequestMethod.GET)
@@ -214,6 +214,6 @@ public class VMController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "/vm/vmDetail";
+		return "/image/vmDetail";
 	}
 }

@@ -9,6 +9,24 @@
 }
 </style>
 <script>
+	function getCheckedCount(){
+		var count=0;
+		$('#serverTable input[type=checkbox]').each(function(){
+			var checkbox=$(this);
+			if (checkbox.attr('checked')){
+				count++;
+			}
+		});
+		return count;
+	}
+	
+	function wait(){
+		$("#waitDialog").dialog({
+			width : 300,
+			height : 100,
+			modal : true
+		});
+	}
 	$(document).ready(function() {
 		$('#searchVM').click(function() {
 			if ($(this).val() == 'Search vm') {
@@ -20,6 +38,14 @@
 			if ($(this).val() == '') {
 				$('#searchVM').val('Search vm');
 			}
+		});
+		
+		$('#searchVMButton').click(function(e) {
+			var vmName=$('#searchVM').val();
+			if (vmName=='Search vm'){
+				vmName='';
+			}
+			window.location="index.htm?vmName="+vmName;
 		});
 
 		$('#searchVM').keypress(function(e) {
@@ -36,16 +62,139 @@
 		});
 
 		$('#deleteVM').click(function(e) {
-			$('#serverTable input[type=checkbox]').each(function(){
-				var checkbox=$(this);
-				if (checkbox.attr('checked')){
-					alert($(this).id);
-				}
-			});
-			$("#deleteVMDialog").dialog({
-				height : 140,
-				modal : true
-			});
+			if (getCheckedCount()>0 && confirm('Confirm to delete vm?')){
+				wait();
+				$('#serverTable input[type=checkbox]').each(function(){
+					var checkbox=$(this);
+					if (checkbox.attr('checked')){
+						var instanceId=$(this).attr('id');
+					
+						$.get('<c:out value="${titanServerRestURL}" />/rest/titan/sendCommand.htm?titanCommand=from titan:nova delete&$InstanceId='+instanceId, function(data) {
+							
+						});
+					}
+				});
+				setTimeout(function(){location.reload();}, 2000);
+			}
+		});
+		
+		$('#softRebootVM').click(function(e) {
+			if (getCheckedCount()>0 && confirm('Confirm to soft reboot vm?')){
+				wait();
+				$('#serverTable input[type=checkbox]').each(function(){
+					var checkbox=$(this);
+					if (checkbox.attr('checked')){
+						var instanceId=$(this).attr('id');
+					
+						$.get('<c:out value="${titanServerRestURL}" />/rest/titan/sendCommand.htm?titanCommand=from titan:nova soft-reboot&$InstanceId='+instanceId, function(data) {
+							
+						});
+					}
+				});
+				setTimeout(function(){location.reload();}, 2000);
+			}
+		});
+		
+		$('#hardRebootVM').click(function(e) {
+			if (getCheckedCount()>0 && confirm('Confirm to hard reboot vm?')){
+				wait();
+				$('#serverTable input[type=checkbox]').each(function(){
+					var checkbox=$(this);
+					if (checkbox.attr('checked')){
+						var instanceId=$(this).attr('id');
+					
+						$.get('<c:out value="${titanServerRestURL}" />/rest/titan/sendCommand.htm?titanCommand=from titan:nova hard-reboot&$InstanceId='+instanceId, function(data) {
+							
+						});
+					}
+				});
+				setTimeout(function(){location.reload();}, 2000);
+			}
+		});
+		
+		$('#stopVM').click(function(e) {
+			if (getCheckedCount()>0 && confirm('Confirm to stop vm?')){
+				wait();
+				$('#serverTable input[type=checkbox]').each(function(){
+					var checkbox=$(this);
+					if (checkbox.attr('checked')){
+						var instanceId=$(this).attr('id');
+					
+						$.get('<c:out value="${titanServerRestURL}" />/rest/titan/sendCommand.htm?titanCommand=from titan:nova stop&$InstanceId='+instanceId, function(data) {
+							
+						});
+					}
+				});
+				setTimeout(function(){location.reload();}, 2000);
+			}
+		});
+		
+		$('#pauseVM').click(function(e) {
+			if (getCheckedCount()>0 && confirm('Confirm to pause vm?')){
+				wait();
+				$('#serverTable input[type=checkbox]').each(function(){
+					var checkbox=$(this);
+					if (checkbox.attr('checked')){
+						var instanceId=$(this).attr('id');
+					
+						$.get('<c:out value="${titanServerRestURL}" />/rest/titan/sendCommand.htm?titanCommand=from titan:nova pause&$InstanceId='+instanceId, function(data) {
+							
+						});
+					}
+				});
+				setTimeout(function(){location.reload();}, 2000);
+			}
+		});
+		
+		$('#unpauseVM').click(function(e) {
+			if (getCheckedCount()>0 && confirm('Confirm to unpause vm?')){
+				wait();
+				$('#serverTable input[type=checkbox]').each(function(){
+					var checkbox=$(this);
+					if (checkbox.attr('checked')){
+						var instanceId=$(this).attr('id');
+					
+						$.get('<c:out value="${titanServerRestURL}" />/rest/titan/sendCommand.htm?titanCommand=from titan:nova unpause&$InstanceId='+instanceId, function(data) {
+							
+						});
+					}
+				});
+				setTimeout(function(){location.reload();}, 2000);
+			}
+		});
+		
+		$('#suspendVM').click(function(e) {
+			if (getCheckedCount()>0 && confirm('Confirm to suspend vm?')){
+				wait();
+				$('#serverTable input[type=checkbox]').each(function(){
+					var checkbox=$(this);
+					if (checkbox.attr('checked')){
+						var instanceId=$(this).attr('id');
+					
+						$.get('<c:out value="${titanServerRestURL}" />/rest/titan/sendCommand.htm?titanCommand=from titan:nova suspend&$InstanceId='+instanceId, function(data) {
+							
+						});
+					}
+				});
+				setTimeout(function(){location.reload();}, 3000);
+			}
+		});
+		
+		$('#resumeVM').click(function(e) {
+			if (getCheckedCount()>0 && confirm('Confirm to resume vm?')){
+				wait();
+				$('#serverTable input[type=checkbox]').each(function(){
+					var checkbox=$(this);
+					if (checkbox.attr('checked')){
+						var instanceId=$(this).attr('id');
+					
+						$.get('<c:out value="${titanServerRestURL}" />/rest/titan/sendCommand.htm?titanCommand=from titan:nova resume&$InstanceId='+instanceId, function(data) {
+							
+						});
+					}
+				});
+				setTimeout(function(){location.reload();}, 4000);
+			}
 		});
 	});
 </script>
@@ -59,15 +208,24 @@
 				</div>
 				<div class="menu">
 					<ul>
-						<li><a id="createVM" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/add.png"><p>Create</p></a></li>
-						<li><a id="deleteVM" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/cross.png"><p>Delete</p></a></li>
+						<li><a id="createVM" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/add.png"><p>Create vm</p></a></li>
+						<li><a id="deleteVM" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/cross.png"><p>Delete vm</p></a></li>
+						<li><a id="softRebootVM" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/arrow_refresh.png"><p>Soft reboot</p></a></li>
+						<li><a id="hardRebootVM" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/arrow_refresh_red.png"><p>Hard reboot</p></a></li>
+						<li><a id="stopVM" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/stop.png"><p>Stop</p></a></li>
+						<li><a id="pauseVM" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/control_pause.png"><p>Pause</p></a></li>
+						<li><a id="unpauseVM" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/control_play.png"><p>Unpause</p></a></li>
+						<li><a id="suspendVM" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/disk.png"><p>Suspend</p></a></li>
+						<li><a id="resumeVM" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/drive_disk.png"><p>Resume</p></a></li>
 					</ul>
 				</div>
 			</div>
 		</td>
 		<td valign="top">
 			<div class="box1" style="padding: 20px; margin-right: 40px;">
-				<input id="searchVM" type="search" width="200" value="Search vm" /><br>
+				<input id="searchVM" type="search" width="200" value="${vmName}" />
+				<input id="searchVMButton" type="button" value="Search" class="sexybutton sexysimple sexyblue" />
+				<br>
 				<c:choose>
 					<c:when test="${not empty error}">
 						${error}
@@ -106,12 +264,21 @@
 										<c:if test="${item.status == 'ACTIVE'}">
 											<img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/tick.png">
 										</c:if>
+										<c:if test="${item.status == 'SHUTOFF'}">
+											<img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/stop.png">
+										</c:if>
+										<c:if test="${item.status == 'PAUSED'}">
+											<img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/control_pause.png">
+										</c:if>
+										<c:if test="${item.status == 'SUSPENDED'}">
+											<img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/disk.png">
+										</c:if>
 										<c:out value="${item.status}" />
 									</td>
-									<td align="center">${flavorName}</td>
-									<td align="center">${flavorVcpus}</td>
-									<td align="center">${flavorRam}</td>
-									<td align="center">${flavorDisk}</td>
+									<td align="center">${item.flavorName}</td>
+									<td align="center">${item.flavorVcpus}</td>
+									<td align="center">${item.flavorRam}</td>
+									<td align="center">${item.flavorDisk}</td>
 								</tr>
 							</c:forEach>
 						</table>
@@ -124,5 +291,10 @@
 
 <jsp:include page="createVMDialog.jsp" />
 <jsp:include page="deleteVMDialog.jsp" />
+<div id="waitDialog" title="Create vm" style="display: none;" align="center">
+	<br>
+	Please wait, updating status
+	<br>
+</div>
 
 <%@ include file="../template1Footer.jsp"%>

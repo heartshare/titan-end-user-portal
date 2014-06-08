@@ -18,7 +18,7 @@
 				var min_count=1;
 				if (confirm('Confirm to create vm?')){
 					$.get('<c:out value="${titanServerRestURL}" />/rest/titan/sendCommand.htm?titanCommand=from titan:nova boot&$name='+name+'&$flavorRef='+flavor+'&$imageRef='+image+'&$min_count='+min_count, function( data ) {
-						  alert(data);
+						  location.reload();
 					});
 				}
 			}
