@@ -42,7 +42,7 @@
 	
 	#vmDetailTable
 	{
-		color: #a0a0a0;
+		color: #505050;
 	}
 	
 	#vmDetailTable td
@@ -64,38 +64,38 @@
 		$('#actions').change(function(){
 			var selectedValue=$('#actions').val();
 			$('#actions option:first-child').attr("selected", "selected");
-			if (selectedValue=='Reboot'){
-				wait(selectedValue);
-				var instanceId="${instanceId}";
-				
-				$.get('<c:out value="${titanServerRestURL}" />/rest/titan/sendCommand.htm?titanCommand=from titan:nova soft-reboot&$InstanceId='+instanceId, function(data) {
+			if (selectedValue=='Stop'){
+				if (confirm('Confirm to stop vm?')){
+					wait();
+					var instanceId="${instanceId}";
 					
-				});
-				setTimeout(function(){location.reload();}, 2000);
-			}else if (selectedValue=='Stop'){
-				wait();
-				var instanceId="${instanceId}";
-				
-				$.get('<c:out value="${titanServerRestURL}" />/rest/titan/sendCommand.htm?titanCommand=from titan:nova stop&$InstanceId='+instanceId, function(data) {
-					
-				});
-				setTimeout(function(){location.reload();}, 2000);
+					$.get('<c:out value="${titanServerRestURL}" />/rest/titan/sendCommand.htm?titanCommand=from titan:nova stop&$InstanceId='+instanceId, function(data) {
+						
+					});
+					setTimeout(function(){location.reload();}, 2000);
+				}
 			}else if (selectedValue=='Soft reboot'){
-				wait();
-				var instanceId="${instanceId}";
-				
-				$.get('<c:out value="${titanServerRestURL}" />/rest/titan/sendCommand.htm?titanCommand=from titan:nova soft-reboot&$InstanceId='+instanceId, function(data) {
+				if (confirm('Confirm to soft reboot vm?')){
+					wait();
+					var instanceId="${instanceId}";
 					
-				});
-				setTimeout(function(){location.reload();}, 2000);
+					$.get('<c:out value="${titanServerRestURL}" />/rest/titan/sendCommand.htm?titanCommand=from titan:nova soft-reboot&$InstanceId='+instanceId, function(data) {
+						
+					});
+					setTimeout(function(){location.reload();}, 2000);
+				}
 			}else if (selectedValue=='Hard reboot'){
-				wait();
-				var instanceId="${instanceId}";
-				
-				$.get('<c:out value="${titanServerRestURL}" />/rest/titan/sendCommand.htm?titanCommand=from titan:nova hard-reboot&$InstanceId='+instanceId, function(data) {
+				if (confirm('Confirm to hard reboot vm?')){
+					wait();
+					var instanceId="${instanceId}";
 					
-				});
-				setTimeout(function(){location.reload();}, 2000);
+					$.get('<c:out value="${titanServerRestURL}" />/rest/titan/sendCommand.htm?titanCommand=from titan:nova hard-reboot&$InstanceId='+instanceId, function(data) {
+						
+					});
+					setTimeout(function(){location.reload();}, 2000);
+				}
+			}else if (selectedValue=='Remote'){
+				window.location="remote.htm?instanceId=${instanceId}";
 			}
 		});
 	});

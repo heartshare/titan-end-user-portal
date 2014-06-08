@@ -218,4 +218,11 @@ public class VMController {
 		model.addAttribute("titanServerRestURL", titanServerRestURL);
 		return "/vm/vmDetail";
 	}
+	
+	@RequestMapping(value = "/remote.htm", method = RequestMethod.GET)
+	public String remote(ModelMap model, String instanceId) {
+		model.addAttribute("instanceId", instanceId);
+		model.addAttribute("titanServerRestURL", titanServerRestURL);
+		return "/vm/remote";
+	}
 }
