@@ -35,8 +35,7 @@ if (show_help) {
   console.log("  -h [ --help ]                 Produce this help message");
   console.log("  -d [ --debug-names ]          Preserve keysym names for debugging (Increases file size by ~40KB)");
   console.log("  filename                      The keysymdef.h file to parse");
-  return;
-}
+}else{
 
 // Set this to false to omit key names from the generated keysymdef.js
 // This reduces the file size by around 40kb, but may hinder debugging
@@ -95,3 +94,4 @@ out = out.replace('{keysyms}', use_keynames ? JSON.stringify(keysyms) : "null");
 out = out.replace('{codepoints}', JSON.stringify(codepoints));
 
 fs.writeFileSync("keysymdef.js", out);
+}
