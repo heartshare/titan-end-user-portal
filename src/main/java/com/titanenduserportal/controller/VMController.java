@@ -214,6 +214,8 @@ public class VMController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		model.addAttribute("instanceId", instanceId);
+		model.addAttribute("titanServerRestURL", titanServerRestURL);
 		return "/vm/vmDetail";
 	}
 }

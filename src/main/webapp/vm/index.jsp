@@ -27,6 +27,7 @@
 			modal : true
 		});
 	}
+	
 	$(document).ready(function() {
 		$('#searchVM').click(function() {
 			if ($(this).val() == 'Search vm') {
