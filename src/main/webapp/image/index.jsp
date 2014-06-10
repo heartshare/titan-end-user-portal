@@ -28,7 +28,25 @@
 		});
 	}
 	$(document).ready(function() {
+		$('#searchImage').click(function() {
+			if ($(this).val() == 'Search image') {
+				$('#searchImage').val('');
+			}
+		});
+
+		$('#searchImage').focusout(function() {
+			if ($(this).val() == '') {
+				$('#searchImage').val('Search image');
+			}
+		});
 		
+		$('#searchImageButton').click(function(e) {
+			var imageName=$('#searchImage').val();
+			if (imageName=='Search image'){
+				imageName='';
+			}
+			window.location="index.htm?imageName="+imageName;
+		});
 	});
 </script>
 <table border="0" width="100%" height="100%">
@@ -43,21 +61,14 @@
 					<ul>
 						<li><a id="createVMFromImage" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/add.png"><p>Create vm from image</p></a></li>
 						<li><a id="deleteImage" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/cross.png"><p>Delete image</p></a></li>
-						<li><a id="softRebootVM" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/arrow_refresh.png"><p>Soft reboot</p></a></li>
-						<li><a id="hardRebootVM" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/arrow_refresh_red.png"><p>Hard reboot</p></a></li>
-						<li><a id="stopVM" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/stop.png"><p>Stop</p></a></li>
-						<li><a id="pauseVM" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/control_pause.png"><p>Pause</p></a></li>
-						<li><a id="unpauseVM" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/control_play.png"><p>Unpause</p></a></li>
-						<li><a id="suspendVM" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/disk.png"><p>Suspend</p></a></li>
-						<li><a id="resumeVM" href=#><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/drive_disk.png"><p>Resume</p></a></li>
 					</ul>
 				</div>
 			</div>
 		</td>
 		<td valign="top">
 			<div class="box1" style="padding: 20px; margin-right: 40px;">
-				<input id="searchVM" type="search" width="200" value="${vmName}" />
-				<input id="searchVMButton" type="button" value="Search" class="sexybutton sexysimple sexyblue" />
+				<input id="searchImage" type="search" width="200" value="${imageName}" />
+				<input id="searchImageButton" type="button" value="Search" class="sexybutton sexysimple sexyblue" />
 				<br>
 				<c:choose>
 					<c:when test="${not empty error}">
@@ -68,50 +79,36 @@
 							<tr>
 								<th></th>
 								<th align="left">Name</th>
-								<th align="left">IP</th>
 								<th align="left">Status</th>
-								<th>Flavor</th>
-								<th>vCpu</th>
-								<th>Ram</th>
-								<th>Disk</th>
+								<th>Size</th>
+								<th>Created at</th>
 							</tr>
-							<c:forEach items="${instances}" var="item">
+							<c:forEach items="${images}" var="item">
 								<tr>
 									<td><input id="${item.id}" type="checkbox" /></td>
 									<td align="left">
-										<a href="vmDetail.htm?instanceId=<c:out value="${item.id}"/>"><c:out value="${item.name}" /></a>
+										<a href="imageDetail.htm?imageId=<c:out value="${item.id}"/>"><c:out value="${item.name}" /></a>
 									</td>
 									<td align="left">
-										<c:choose>
-											<c:when test="${item.address == ''}">
-												--
-											</c:when>
-											<c:otherwise>
-												<c:out value="${item.address}" />
-											</c:otherwise>
-										</c:choose></td>
-									<td align="left">
-										<c:if test="${item.status == 'ERROR'}">
+										<c:if test="${item.status == 'error'}">
 											<img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/error.png">
 										</c:if>
-										<c:if test="${item.status == 'ACTIVE'}">
+										<c:if test="${item.status == 'active'}">
 											<img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/tick.png">
 										</c:if>
-										<c:if test="${item.status == 'SHUTOFF'}">
+										<c:if test="${item.status == 'shutoff'}">
 											<img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/stop.png">
 										</c:if>
-										<c:if test="${item.status == 'PAUSED'}">
+										<c:if test="${item.status == 'pause'}">
 											<img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/control_pause.png">
 										</c:if>
-										<c:if test="${item.status == 'SUSPENDED'}">
+										<c:if test="${item.status == 'suspended'}">
 											<img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/disk.png">
 										</c:if>
 										<c:out value="${item.status}" />
 									</td>
-									<td align="center">${item.flavorName}</td>
-									<td align="center">${item.flavorVcpus}</td>
-									<td align="center">${item.flavorRam}</td>
-									<td align="center">${item.flavorDisk}</td>
+									<td align="center">${item.size}</td>
+									<td align="center">${item.created_at}</td>
 								</tr>
 							</c:forEach>
 						</table>
@@ -121,10 +118,7 @@
 		</td>
 	</tr>
 </table>
-
-<jsp:include page="createVMDialog.jsp" />
-<jsp:include page="deleteVMDialog.jsp" />
-<div id="waitDialog" title="Create vm" style="display: none;" align="center">
+<div id="waitDialog" title="" style="display: none;" align="center">
 	<br>
 	Please wait, updating status
 	<br>

@@ -19,14 +19,14 @@ import com.titanenduserportal.CommonLib;
 import com.titanenduserportal.HibernateUtil;
 
 @Controller
-@RequestMapping("/image")
-public class ImageController {
+@RequestMapping("/network")
+public class NetworkController {
 	@Value("${titanServerRestURL}")
 	private String titanServerRestURL;
 
 	@Secured("ROLE_LOGINED")
 	@RequestMapping(value = "/index.htm", method = RequestMethod.GET)
-	public String main(ModelMap model, String imageName) {
+	public String main(ModelMap model, String networkName) {
 		String error = null;
 		try {
 			model.addAttribute("username", CommonLib.getUsername());
@@ -39,11 +39,11 @@ public class ImageController {
 			JSONObject obj;
 			JSONObject base;
 
-			resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm?titanCommand=" + URLEncoder.encode("from titan: glance image-list"), null, null);
+			resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm?titanCommand=" + URLEncoder.encode("from titan: glance network-list"), null, null);
 			obj = JSONObject.fromObject(resultStr);
 			base = JSONObject.fromObject(obj.getJSONObject("values").getJSONObject("result").getJSONObject("map").getJSONObject("result").getString("content").toString());
-			JSONArray servers = base.getJSONArray("images");
-			Vector<Hashtable<String, String>> images = new Vector<Hashtable<String, String>>();
+			JSONArray servers = base.getJSONArray("networks");
+			Vector<Hashtable<String, String>> networks = new Vector<Hashtable<String, String>>();
 			for (int x = 0; x < servers.size(); x++) {
 				obj = servers.getJSONObject(x);
 				try {
@@ -69,14 +69,14 @@ public class ImageController {
 					ht.put("properties", CommonLib.getJSONString(obj, "properties", ""));
 					ht.put("size", CommonLib.convertFilesize(Long.parseLong(CommonLib.getJSONString(obj, "size", ""))));
 
-					if (imageName == null || name.toLowerCase().contains(imageName.toLowerCase())) {
-						images.add(ht);
+					if (networkName == null || name.toLowerCase().contains(networkName.toLowerCase())) {
+						networks.add(ht);
 					}
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
 			}
-			model.addAttribute("images", images);
+			model.addAttribute("networks", networks);
 			model.addAttribute("titanServerRestURL", titanServerRestURL);
 		} catch (ConnectException e) {
 			error = "Connection refused : " + titanServerRestURL + "/rest/titan/sendCommand.htm";
@@ -86,12 +86,12 @@ public class ImageController {
 
 		model.addAttribute("regions", HibernateUtil.createQuery("from Region"));
 		model.addAttribute("error", error);
-		model.addAttribute("imageName", (imageName == null || imageName.equals("")) ? "Search image" : imageName);
-		return "/image/index";
+		model.addAttribute("networkName", (networkName == null || networkName.equals("")) ? "Search network" : networkName);
+		return "/network/index";
 	}
 
-	@RequestMapping(value = "/imageDetail.htm", method = RequestMethod.GET)
-	public String vmDetail(ModelMap model, String instanceId) {
+	@RequestMapping(value = "/networkDetail.htm", method = RequestMethod.GET)
+	public String networkDetail(ModelMap model, String instanceId) {
 		String resultStr = null;
 		try {
 			model.addAttribute("username", CommonLib.getUsername());
@@ -125,7 +125,7 @@ public class ImageController {
 			model.addAttribute("status", CommonLib.getJSONString(server, "status", ""));
 			model.addAttribute("updated", CommonLib.getJSONString(server, "updated", ""));
 			model.addAttribute("hostId", CommonLib.getJSONString(server, "hostId", ""));
-			model.addAttribute("image", CommonLib.getJSONString(server.getJSONObject("image"), "id", ""));
+			model.addAttribute("network", CommonLib.getJSONString(server.getJSONObject("network"), "id", ""));
 			String flavorId = CommonLib.getJSONString(server.getJSONObject("flavor"), "id", "");
 			model.addAttribute("flavor", flavorId);
 			model.addAttribute("name", CommonLib.getJSONString(server, "name", ""));
@@ -137,7 +137,7 @@ public class ImageController {
 			model.addAttribute("instanceName", CommonLib.getJSONString(server, "OS-EXT-SRV-ATTR:instance_name", ""));
 			model.addAttribute("name", CommonLib.getJSONString(server, "name", ""));
 
-			String imageId = CommonLib.getJSONString(server.getJSONObject("image"), "id", "");
+			String networkId = CommonLib.getJSONString(server.getJSONObject("network"), "id", "");
 
 			if (!flavorId.equals("")) {
 				parameters = new Hashtable<String, String>();
@@ -153,10 +153,10 @@ public class ImageController {
 				model.addAttribute("flavorVcpus", CommonLib.getJSONString(flavor, "vcpus", ""));
 				model.addAttribute("flavorDisk", CommonLib.getJSONString(flavor, "disk", "") + "GB");
 			}
-			if (!imageId.equals("")) {
+			if (!networkId.equals("")) {
 				parameters = new Hashtable<String, String>();
-				parameters.put("titanCommand", "from titan: glance image-show");
-				parameters.put("$ImageId", imageId);
+				parameters.put("titanCommand", "from titan: glance network-show");
+				parameters.put("$ImageId", networkId);
 				resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm", parameters, null);
 				//				System.out.println(CommonLib.formatJSon(resultStr));
 				obj = JSONObject.fromObject(resultStr);
@@ -165,13 +165,13 @@ public class ImageController {
 					JSONObject item = (JSONObject) headers.get(x);
 					model.addAttribute("glance_" + item.getString("name").replaceAll("-", "_"), item.getString("value"));
 				}
-				model.addAttribute("glance_imagesize", CommonLib.convertFilesize(Long.parseLong(model.get("glance_Content_Length").toString())));
+				model.addAttribute("glance_networksize", CommonLib.convertFilesize(Long.parseLong(model.get("glance_Content_Length").toString())));
 			}
 		} catch (ConnectException e) {
 			resultStr = "Connection refused : " + titanServerRestURL + "/rest/titan/sendCommand.htm";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "/image/vmDetail";
+		return "/network/networkDetail";
 	}
 }

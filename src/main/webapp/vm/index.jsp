@@ -292,7 +292,7 @@
 
 <jsp:include page="createVMDialog.jsp" />
 <jsp:include page="deleteVMDialog.jsp" />
-<div id="waitDialog" title="Create vm" style="display: none;" align="center">
+<div id="waitDialog" title="" style="display: none;" align="center">
 	<br>
 	Please wait, updating status
 	<br>
