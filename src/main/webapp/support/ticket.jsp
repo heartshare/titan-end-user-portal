@@ -1,16 +1,5 @@
 <%@ include file="../template1Header.jsp" %>
 
-<style>
-	h1{
-		font-size: 28px;
-		color: #5c9cd4;
-	}
-	
-	.tdHeader1{
-		font-size:20px;
-		color: #5c9cff;
-	}
-</style>
 <script>
 	function wait(){
 		$("#waitDialog").dialog({
@@ -57,21 +46,10 @@
 				<input id="searchTicketButton" type="button" value="Search" class="sexybutton sexysimple sexyblue" />
 				<br>
 				<br>
-				<table border="0" cellpadding="20" cellspacing="0">
+				<table border="0" cellpadding="20" cellspacing="0" width="100%">
 					<tr>
-						<td class="tdHeader1">Support phone</td>
-						<td class="tdHeader1">Support email</td>
-					</tr>
-					<tr>
-						<td>(+852) 96554595</td>
-						<td>mcheung63@hotmail.com</td>
-					</tr><tr>
-						<td class="tdHeader1">Officer</td>
-						<td class="tdHeader1">Upgrade your support plan</td>
-					</tr>
-					<tr>
-						<td>Peter C.</td>
-						<td><a href#>Place your support link here</a></td>
+						<th>Ticket No.</td>
+						<th>Date</td>
 					</tr>
 				</table>
 			</div>
