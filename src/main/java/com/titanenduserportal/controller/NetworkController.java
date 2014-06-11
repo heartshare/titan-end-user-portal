@@ -39,8 +39,9 @@ public class NetworkController {
 			JSONObject obj;
 			JSONObject base;
 
-			resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm?titanCommand=" + URLEncoder.encode("from titan: glance network-list"), null, null);
+			resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm?titanCommand=" + URLEncoder.encode("from titan: nova network-list"), null, null);
 			obj = JSONObject.fromObject(resultStr);
+			System.out.println(CommonLib.formatJSon(resultStr));
 			base = JSONObject.fromObject(obj.getJSONObject("values").getJSONObject("result").getJSONObject("map").getJSONObject("result").getString("content").toString());
 			JSONArray servers = base.getJSONArray("networks");
 			Vector<Hashtable<String, String>> networks = new Vector<Hashtable<String, String>>();
@@ -50,26 +51,37 @@ public class NetworkController {
 					System.out.println(obj);
 					Hashtable<String, String> ht = new Hashtable<String, String>();
 
-					ht.put("status", CommonLib.getJSONString(obj, "status", ""));
-					String name = CommonLib.getJSONString(obj, "name", "");
-					ht.put("name", name);
-					ht.put("deleted", CommonLib.getJSONString(obj, "deleted", ""));
-					ht.put("container_format", CommonLib.getJSONString(obj, "container_format", ""));
-					ht.put("created_at", CommonLib.getJSONString(obj, "created_at", "").replaceAll("T", " "));
-					ht.put("disk_format", CommonLib.getJSONString(obj, "disk_format", ""));
-					ht.put("updated_at", CommonLib.getJSONString(obj, "updated_at", "").replaceAll("T", " "));
-					ht.put("min_disk", CommonLib.getJSONString(obj, "min_disk", ""));
-					ht.put("protected", CommonLib.getJSONString(obj, "protected", ""));
+					ht.put("bridge", CommonLib.getJSONString(obj, "bridge", ""));
+					ht.put("vpn_public_port", CommonLib.getJSONString(obj, "vpn_public_port", ""));
+					ht.put("dhcp_start", CommonLib.getJSONString(obj, "dhcp_start", ""));
+					ht.put("bridge_interface", CommonLib.getJSONString(obj, "bridge_interface", ""));
 					ht.put("id", CommonLib.getJSONString(obj, "id", ""));
-					ht.put("min_ram", CommonLib.getJSONString(obj, "min_ram", ""));
-					ht.put("checksum", CommonLib.getJSONString(obj, "checksum", ""));
-					ht.put("owner", CommonLib.getJSONString(obj, "owner", ""));
-					ht.put("is_public", CommonLib.getJSONString(obj, "is_public", ""));
+					ht.put("cidr_v6", CommonLib.getJSONString(obj, "cidr_v6", ""));
 					ht.put("deleted_at", CommonLib.getJSONString(obj, "deleted_at", "").replaceAll("T", " "));
-					ht.put("properties", CommonLib.getJSONString(obj, "properties", ""));
-					ht.put("size", CommonLib.convertFilesize(Long.parseLong(CommonLib.getJSONString(obj, "size", ""))));
+					ht.put("gateway", CommonLib.getJSONString(obj, "gateway", ""));
+					ht.put("rxtx_base", CommonLib.getJSONString(obj, "rxtx_base", ""));
 
-					if (networkName == null || name.toLowerCase().contains(networkName.toLowerCase())) {
+					String label = CommonLib.getJSONString(obj, "label", "");
+					ht.put("label", label);
+					ht.put("priority", CommonLib.getJSONString(obj, "priority", ""));
+					ht.put("project_id", CommonLib.getJSONString(obj, "project_id", ""));
+					ht.put("vpn_private_address", CommonLib.getJSONString(obj, "vpn_private_address", ""));
+					ht.put("deleted", CommonLib.getJSONString(obj, "deleted", ""));
+					ht.put("vlan", CommonLib.getJSONString(obj, "vlan", ""));
+					ht.put("broadcast", CommonLib.getJSONString(obj, "broadcast", ""));
+					ht.put("netmask", CommonLib.getJSONString(obj, "netmask", ""));
+					ht.put("injected", CommonLib.getJSONString(obj, "injected", ""));
+					ht.put("cidr", CommonLib.getJSONString(obj, "cidr", ""));
+					ht.put("vpn_public_address", CommonLib.getJSONString(obj, "vpn_public_address", ""));
+					ht.put("multi_host", CommonLib.getJSONString(obj, "multi_host", ""));
+					ht.put("dns2", CommonLib.getJSONString(obj, "dns2", ""));
+					ht.put("created_at", CommonLib.getJSONString(obj, "created_at", "").replaceAll("T", " "));
+					ht.put("host", CommonLib.getJSONString(obj, "host", ""));
+					ht.put("gateway_v6", CommonLib.getJSONString(obj, "gateway_v6", ""));
+					ht.put("netmask_v6", CommonLib.getJSONString(obj, "netmask_v6", ""));
+					ht.put("dns1", CommonLib.getJSONString(obj, "dns1", ""));
+
+					if (networkName == null || label.toLowerCase().contains(networkName.toLowerCase())) {
 						networks.add(ht);
 					}
 				} catch (Exception ex) {

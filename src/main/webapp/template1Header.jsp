@@ -61,8 +61,8 @@
 						<ul>
 							<li><a href="../vm/index.htm" <c:if test="${pageName == 'vm'}">class="active"</c:if>>VM</a></li>
 							<li><a href="../image/index.htm" <c:if test="${pageName == 'image'}">class="active"</c:if>>Image</a></li>
-							<li><a href="javascript:void(0);">Network</a></li>
-							<li><a href="javascript:void(0);">SSH Key</a></li>
+							<li><a href="../network/index.htm" <c:if test="${pageName == 'network'}">class="active"</c:if>>Network</a></li>
+							<li><a href="../key/index.htm" <c:if test="${pageName == 'key'}">class="active"</c:if>>SSH Key</a></li>
 							<li><a href="javascript:void(0);">Block storage</a></li>
 							<li><a href="javascript:void(0);">Storage snapshot</a></li>
 							<li><a href="../support/index.htm" <c:if test="${pageName == 'support'}">class="active"</c:if>>Support</a></li>

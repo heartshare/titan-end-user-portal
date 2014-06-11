@@ -19,14 +19,14 @@ import com.titanenduserportal.CommonLib;
 import com.titanenduserportal.HibernateUtil;
 
 @Controller
-@RequestMapping("/image")
-public class ImageController {
+@RequestMapping("/key")
+public class KeyController {
 	@Value("${titanServerRestURL}")
 	private String titanServerRestURL;
 
 	@Secured("ROLE_LOGINED")
 	@RequestMapping(value = "/index.htm", method = RequestMethod.GET)
-	public String main(ModelMap model, String imageName) {
+	public String main(ModelMap model, String keyName) {
 		String error = null;
 		try {
 			model.addAttribute("username", CommonLib.getUsername());
@@ -39,43 +39,28 @@ public class ImageController {
 			JSONObject obj;
 			JSONObject base;
 
-			resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm?titanCommand=" + URLEncoder.encode("from titan: glance image-list"), null, null);
+			resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm?titanCommand=" + URLEncoder.encode("from titan: nova keypair-list"), null, null);
 			obj = JSONObject.fromObject(resultStr);
 			base = JSONObject.fromObject(obj.getJSONObject("values").getJSONObject("result").getJSONObject("map").getJSONObject("result").getString("content").toString());
-			JSONArray servers = base.getJSONArray("images");
-			Vector<Hashtable<String, String>> images = new Vector<Hashtable<String, String>>();
-			for (int x = 0; x < servers.size(); x++) {
-				obj = servers.getJSONObject(x);
+			JSONArray keypairs = base.getJSONArray("keypairs");
+			Vector<Hashtable<String, String>> keys = new Vector<Hashtable<String, String>>();
+			for (int x = 0; x < keypairs.size(); x++) {
+				obj = keypairs.getJSONObject(x).getJSONObject("keypair");
 				try {
 					Hashtable<String, String> ht = new Hashtable<String, String>();
 
-					ht.put("status", CommonLib.getJSONString(obj, "status", ""));
+					ht.put("public_key", CommonLib.getJSONString(obj, "public_key", ""));
 					String name = CommonLib.getJSONString(obj, "name", "");
 					ht.put("name", name);
-					ht.put("deleted", CommonLib.getJSONString(obj, "deleted", ""));
-					ht.put("container_format", CommonLib.getJSONString(obj, "container_format", ""));
-					ht.put("created_at", CommonLib.getJSONString(obj, "created_at", "").replaceAll("T", " "));
-					ht.put("disk_format", CommonLib.getJSONString(obj, "disk_format", ""));
-					ht.put("updated_at", CommonLib.getJSONString(obj, "updated_at", "").replaceAll("T", " "));
-					ht.put("min_disk", CommonLib.getJSONString(obj, "min_disk", ""));
-					ht.put("protected", CommonLib.getJSONString(obj, "protected", ""));
-					ht.put("id", CommonLib.getJSONString(obj, "id", ""));
-					ht.put("min_ram", CommonLib.getJSONString(obj, "min_ram", ""));
-					ht.put("checksum", CommonLib.getJSONString(obj, "checksum", ""));
-					ht.put("owner", CommonLib.getJSONString(obj, "owner", ""));
-					ht.put("is_public", CommonLib.getJSONString(obj, "is_public", ""));
-					ht.put("deleted_at", CommonLib.getJSONString(obj, "deleted_at", "").replaceAll("T", " "));
-					ht.put("properties", CommonLib.getJSONString(obj, "properties", ""));
-					ht.put("size", CommonLib.convertFilesize(Long.parseLong(CommonLib.getJSONString(obj, "size", ""))));
-
-					if (imageName == null || name.toLowerCase().contains(imageName.toLowerCase())) {
-						images.add(ht);
+					ht.put("fingerprint", CommonLib.getJSONString(obj, "fingerprint", ""));
+					if (keyName == null || name.toLowerCase().contains(keyName.toLowerCase())) {
+						keys.add(ht);
 					}
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
 			}
-			model.addAttribute("images", images);
+			model.addAttribute("keys", keys);
 			model.addAttribute("titanServerRestURL", titanServerRestURL);
 		} catch (ConnectException e) {
 			error = "Connection refused : " + titanServerRestURL + "/rest/titan/sendCommand.htm";
@@ -85,11 +70,11 @@ public class ImageController {
 
 		model.addAttribute("regions", HibernateUtil.createQuery("from Region"));
 		model.addAttribute("error", error);
-		model.addAttribute("imageName", (imageName == null || imageName.equals("")) ? "Search image" : imageName);
-		return "/image/index";
+		model.addAttribute("keyName", (keyName == null || keyName.equals("")) ? "Search key" : keyName);
+		return "/key/index";
 	}
 
-	@RequestMapping(value = "/imageDetail.htm", method = RequestMethod.GET)
+	@RequestMapping(value = "/keyDetail.htm", method = RequestMethod.GET)
 	public String vmDetail(ModelMap model, String instanceId) {
 		String resultStr = null;
 		try {
@@ -124,7 +109,7 @@ public class ImageController {
 			model.addAttribute("status", CommonLib.getJSONString(server, "status", ""));
 			model.addAttribute("updated", CommonLib.getJSONString(server, "updated", ""));
 			model.addAttribute("hostId", CommonLib.getJSONString(server, "hostId", ""));
-			model.addAttribute("image", CommonLib.getJSONString(server.getJSONObject("image"), "id", ""));
+			model.addAttribute("key", CommonLib.getJSONString(server.getJSONObject("key"), "id", ""));
 			String flavorId = CommonLib.getJSONString(server.getJSONObject("flavor"), "id", "");
 			model.addAttribute("flavor", flavorId);
 			model.addAttribute("name", CommonLib.getJSONString(server, "name", ""));
@@ -136,7 +121,7 @@ public class ImageController {
 			model.addAttribute("instanceName", CommonLib.getJSONString(server, "OS-EXT-SRV-ATTR:instance_name", ""));
 			model.addAttribute("name", CommonLib.getJSONString(server, "name", ""));
 
-			String imageId = CommonLib.getJSONString(server.getJSONObject("image"), "id", "");
+			String keyId = CommonLib.getJSONString(server.getJSONObject("key"), "id", "");
 
 			if (!flavorId.equals("")) {
 				parameters = new Hashtable<String, String>();
@@ -152,10 +137,10 @@ public class ImageController {
 				model.addAttribute("flavorVcpus", CommonLib.getJSONString(flavor, "vcpus", ""));
 				model.addAttribute("flavorDisk", CommonLib.getJSONString(flavor, "disk", "") + "GB");
 			}
-			if (!imageId.equals("")) {
+			if (!keyId.equals("")) {
 				parameters = new Hashtable<String, String>();
-				parameters.put("titanCommand", "from titan: glance image-show");
-				parameters.put("$ImageId", imageId);
+				parameters.put("titanCommand", "from titan: glance key-show");
+				parameters.put("$KeyId", keyId);
 				resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm", parameters, null);
 				//				System.out.println(CommonLib.formatJSon(resultStr));
 				obj = JSONObject.fromObject(resultStr);
@@ -164,13 +149,13 @@ public class ImageController {
 					JSONObject item = (JSONObject) headers.get(x);
 					model.addAttribute("glance_" + item.getString("name").replaceAll("-", "_"), item.getString("value"));
 				}
-				model.addAttribute("glance_imagesize", CommonLib.convertFilesize(Long.parseLong(model.get("glance_Content_Length").toString())));
+				model.addAttribute("glance_keysize", CommonLib.convertFilesize(Long.parseLong(model.get("glance_Content_Length").toString())));
 			}
 		} catch (ConnectException e) {
 			resultStr = "Connection refused : " + titanServerRestURL + "/rest/titan/sendCommand.htm";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "/image/imageDetail";
+		return "/key/keyDetail";
 	}
 }

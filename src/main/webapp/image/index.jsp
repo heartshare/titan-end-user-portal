@@ -1,7 +1,7 @@
 <%@ include file="../template1Header.jsp"%>
 
 <style>
-#serverTable td {
+#imageTable td {
 	border-bottom: 1px solid #dedede;
 	padding-top: 10px;
 	padding-bottom: 10px;
@@ -11,7 +11,7 @@
 <script>
 	function getCheckedCount(){
 		var count=0;
-		$('#serverTable input[type=checkbox]').each(function(){
+		$('#imageTable input[type=checkbox]').each(function(){
 			var checkbox=$(this);
 			if (checkbox.attr('checked')){
 				count++;
@@ -75,7 +75,7 @@
 						${error}
 					</c:when>
 					<c:otherwise>
-						<table width="100%" id="serverTable" cellpadding="0" cellspacing="0">
+						<table width="100%" id="imageTable" cellpadding="0" cellspacing="0">
 							<tr>
 								<th></th>
 								<th align="left">Name</th>
