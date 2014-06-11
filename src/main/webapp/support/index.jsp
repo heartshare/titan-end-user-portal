@@ -13,7 +13,7 @@
 </style>
 <table border="0" width="100%" height="100%">
 	<tr>
-		<td valign="top" align="left" width="400">
+		<td valign="top" align="left" width="200" style="padding-left: 40px; padding-right: 20px;">
 			<div class="menu-container">
 				<div class="nav">
 				    Functions
@@ -30,7 +30,7 @@
 			</div>
 		</td>
 		<td valign="top">
-			<div class="box1" style="padding: 20px;">
+			<div class="box1" style="padding: 20px; margin-right: 40px;">
 				<h1>Welcome to the Open Cloud!</h1>
 				<br>
 				<table border="0" cellpadding="20" cellspacing="0">
