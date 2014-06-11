@@ -49,7 +49,11 @@
 				<table border="0" cellpadding="20" cellspacing="0" width="100%">
 					<tr>
 						<th>Ticket No.</td>
+						<th>Header</td>
 						<th>Date</td>
+						<th>Last update</td>
+						<th>Last update person</td>
+						<th>Status</td>
 					</tr>
 				</table>
 			</div>
