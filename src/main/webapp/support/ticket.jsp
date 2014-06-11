@@ -11,6 +11,28 @@
 		color: #5c9cff;
 	}
 </style>
+<script>
+	function wait(){
+		$("#waitDialog").dialog({
+			width : 300,
+			height : 100,
+			modal : true
+		});
+	}
+	$(document).ready(function() {
+		$('#searchTicket').click(function() {
+			if ($(this).val() == 'Search ticket') {
+				$('#searchTicket').val('');
+			}
+		});
+
+		$('#searchTicket').focusout(function() {
+			if ($(this).val() == '') {
+				$('#searchTicket').val('Search ticket');
+			}
+		});
+	});
+</script>
 <table border="0" width="100%" height="100%">
 	<tr>
 		<td valign="top" align="left" width="200" style="padding-left: 40px; padding-right: 20px;">
@@ -31,7 +53,9 @@
 		</td>
 		<td valign="top">
 			<div class="box1" style="padding: 20px; margin-right: 40px;">
-				<h1>Welcome to the Open Cloud!</h1>
+				<input id="searchTicket" type="search" width="200" value="${ticketName}" />
+				<input id="searchTicketButton" type="button" value="Search" class="sexybutton sexysimple sexyblue" />
+				<br>
 				<br>
 				<table border="0" cellpadding="20" cellspacing="0">
 					<tr>

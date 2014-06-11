@@ -12,10 +12,20 @@ import com.titanenduserportal.CommonLib;
 public class SupportController {
 
 	@RequestMapping(value = "/index.htm", method = RequestMethod.GET)
-	public String main(ModelMap model) {
+	public String index(ModelMap model) {
 		model.addAttribute("username", CommonLib.getUsername());
 		model.addAttribute("authorities", CommonLib.getAuthorities());
 		return "/support/index";
+	}
+
+	@RequestMapping(value = "/ticket.htm", method = RequestMethod.GET)
+	public String ticket(ModelMap model, String ticketName) {
+		
+		
+		model.addAttribute("username", CommonLib.getUsername());
+		model.addAttribute("authorities", CommonLib.getAuthorities());
+		model.addAttribute("ticketName", (ticketName == null || ticketName.equals("")) ? "Search ticket" : ticketName);
+		return "/support/ticket";
 	}
 
 }
