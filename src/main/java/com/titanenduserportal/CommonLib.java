@@ -40,6 +40,7 @@ import com.titanenduserportal.table.Region;
 import com.titanenduserportal.table.Role;
 import com.titanenduserportal.table.User;
 import com.titanenduserportal.table.UserGroup;
+import com.titanenduserportal.table.ticket.TicketCategory;
 
 public class CommonLib {
 	private static Logger logger = Logger.getLogger(CommonLib.class);
@@ -101,12 +102,33 @@ public class CommonLib {
 			region.setName("USA");
 			region.setDescription("United States Of America");
 			session.save(region);
-			
+
 			region = new Region();
 			region.setName("Europe");
 			region.setDescription("West Europe");
 			session.save(region);
-			
+
+			TicketCategory ticketCategory;
+
+			ticketCategory = new TicketCategory();
+			ticketCategory.name = "General support";
+			session.save(ticketCategory);
+
+			ticketCategory = new TicketCategory();
+			ticketCategory.name = "User account";
+			session.save(ticketCategory);
+
+			ticketCategory = new TicketCategory();
+			ticketCategory.name = "VM problem";
+			session.save(ticketCategory);
+
+			ticketCategory = new TicketCategory();
+			ticketCategory.name = "Billing issue";
+			session.save(ticketCategory);
+
+			ticketCategory = new TicketCategory();
+			ticketCategory.name = "Question";
+			session.save(ticketCategory);
 
 		} catch (Exception ex) {
 			logger.error(ex.getMessage());
