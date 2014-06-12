@@ -256,6 +256,7 @@
 					<scanIntervalSeconds>1</scanIntervalSeconds>
 					<stopKey>foo</stopKey>
 					<stopPort>9999</stopPort>
+					<contextPath>/portal</contextPath>
 				</configuration>
 				<executions>
 					<execution>
