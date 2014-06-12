@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "log")
 public class Log implements java.io.Serializable {
-	private Integer logID;
+	private Integer logId;
 	private String username;
 	private Date date;
 	private String priority;
@@ -25,13 +25,13 @@ public class Log implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "logID", unique = true, nullable = false)
+	@Column(name = "logId", unique = true, nullable = false)
 	public Integer getLogID() {
-		return this.logID;
+		return this.logId;
 	}
 
-	public void setLogID(Integer logID) {
-		this.logID = logID;
+	public void setLogID(Integer logId) {
+		this.logId = logId;
 	}
 
 	@Column(name = "date")
