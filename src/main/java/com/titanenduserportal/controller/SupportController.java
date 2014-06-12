@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.titanenduserportal.CommonLib;
+import com.titanenduserportal.HibernateUtil;
 
 @Controller
 @RequestMapping("/support")
@@ -30,6 +31,7 @@ public class SupportController {
 	public String createTicket(ModelMap model) {
 		model.addAttribute("username", CommonLib.getUsername());
 		model.addAttribute("authorities", CommonLib.getAuthorities());
+		model.addAttribute("ticketCategories", HibernateUtil.createQuery("from TicketCategory order by name"));
 		return "/support/createTicket";
 	}
 

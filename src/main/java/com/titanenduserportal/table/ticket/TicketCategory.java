@@ -17,4 +17,21 @@ public class TicketCategory {
 	public Integer ticketCategoryId;
 
 	public String name;
+
+	public Integer getTicketCategoryId() {
+		return ticketCategoryId;
+	}
+
+	public void setTicketCategoryId(Integer ticketCategoryId) {
+		this.ticketCategoryId = ticketCategoryId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 }

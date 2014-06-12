@@ -32,13 +32,13 @@
 					<div>
 						<label for="username" style="display: block; text-align: left; color: #555; font-size: 12px; font-weight: bold; margin-bottom: 10px;"><spring:message code="username" /></label> <span class="help-block"></span>
 						<div class="input">
-							<input type="text" name="username" id="username" style="width: 350px;" class="input_textarea_select" />
+							<input type="text" name="username" id="username" style="width: 350px;" />
 						</div>
 					</div>
 					<div>
 						<label for="password" style="display: block; text-align: left; color: #555; font-size: 12px; font-weight: bold; margin-bottom: 10px;"><spring:message code="password" /></label>
 						<div class="input">
-							<input type="password" name="password" id="password" style="width: 350px;" class="input_textarea_select" />
+							<input type="password" name="password" id="password" style="width: 350px;" />
 							<span style="font-size: 12px; color: orange;">${errorMsg}</span>
 						</div>
 					</div>

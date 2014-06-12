@@ -48,13 +48,13 @@
 				<br>
 				<table border="0" cellpadding="20" cellspacing="0" width="100%">
 					<tr>
-						<th>Ticket No.</td>
-						<th>Header</td>
-						<th>Catrgory</td>
-						<th>Date</td>
-						<th>Last update</td>
-						<th>Last update person</td>
-						<th>Status</td>
+						<th>Ticket No.</th>
+						<th>Header</th>
+						<th>Catrgory</th>
+						<th>Date</th>
+						<th>Last update</th>
+						<th>Last update person</th>
+						<th>Status</th>
 					</tr>
 				</table>
 			</div>
