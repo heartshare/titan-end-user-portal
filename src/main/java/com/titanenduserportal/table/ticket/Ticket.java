@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.File;
 import java.sql.Blob;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -40,6 +41,8 @@ public class Ticket {
 	public Blob attachment1;
 	public Blob attachment2;
 	public Blob attachment3;
+
+	public Date date;
 
 	public Integer getTicketId() {
 		return ticketId;
@@ -111,6 +114,14 @@ public class Ticket {
 
 	public void setAttachment3(Blob attachment3) {
 		this.attachment3 = attachment3;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 }

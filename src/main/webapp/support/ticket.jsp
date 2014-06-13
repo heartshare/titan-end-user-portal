@@ -56,6 +56,11 @@
 						<th>Last update person</th>
 						<th>Status</th>
 					</tr>
+					<c:forEach var="ticket" items="${tickets}">
+						<tr>
+							<td>${ticket.ticketId }</td>
+						</tr>
+					</c:forEach>
 				</table>
 			</div>
 		</td>
