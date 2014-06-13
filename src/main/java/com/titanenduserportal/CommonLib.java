@@ -29,6 +29,8 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.exception.SQLGrammarException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -133,8 +135,15 @@ public class CommonLib {
 		} catch (Exception ex) {
 			logger.error(ex.getMessage());
 		} finally {
-			tx.commit();
-			session.close();
+			try {
+				tx.commit();
+				session.close();
+			} catch (Exception ex) {
+				AnnotationConfiguration config = new AnnotationConfiguration().configure(PropertyUtil.getProperty("hibernateConfigFile"));
+				config.buildSessionFactory();
+				config.createMappings();
+				config.createExtendedMappings();
+			}
 		}
 	}
 
@@ -143,6 +152,8 @@ public class CommonLib {
 		try {
 			List<User> tables = session.createQuery("from User").list();
 			return tables.size() == 0;
+		} catch (SQLGrammarException ex) {
+			return true;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return true;
