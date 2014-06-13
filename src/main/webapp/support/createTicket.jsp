@@ -1,5 +1,5 @@
 <%@ include file="../template1Header.jsp" %>
-
+<script type='text/javascript' src='${pageContext.request.contextPath}/jquery.form.min.js'></script>
 <script>
 	function wait(){
 		$("#waitDialog").dialog({
@@ -22,19 +22,13 @@
 		});
 		
 		$('#saveButton').click(function() {
-			var values = {};
-			values["category"]=$('#category').val();
-			values["header"]=$('#header').val();
-			values["message"]=$('#message').val();
-			$.post("saveTicket.htm", values, 
-				function(data) {
-					if (data == "yes") {
-						alert("Save successfully");
-						$("#editEmployeeDialog").dialog("close");
-			            $("#employeeGrid").trigger("reloadGrid");
-					}
-				}
-			);
+			alert($("#createTicketForm"));
+			$("#createTicketForm").ajaxForm({
+			success:function(data) { 
+				alert(data);
+			},
+			dataType:"text"
+			}).submit();
 		});
 	});
 </script>
@@ -45,40 +39,42 @@
 				<a href="ticket.htm"><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/arrow_left.png">Back</a>
 				<br>
 				<br>
-				<table border="0" cellpadding="5" cellspacing="0" width="100%">
-					<tr>
-						<td align="right">Category</td>
-						<td>
-							<select id="category">
-								<c:forEach var="ticketCategory" items="${ticketCategories}">
-									<option value="<c:out value="${ticketCategory.ticketCategoryId}" />">${ticketCategory.name}</option>
-								</c:forEach>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td align="right">Header</td>
-						<td><input id="header" type="text" style="width: 600px;" /></td>
-					</tr>
-					<tr>
-						<td align="right">Message</td>
-						<td><textarea id="message" style="width: 600px; height:100px;" ></textarea></td>
-					</tr>
-					<tr>
-						<td align="right">Attachments</td>
-						<td>
-							<input type="file" id="file1" /><br>
-							<input type="file" id="file2" /><br>
-							<input type="file" id="file3" />
-						</td>
-					</tr>
-					<tr>
-						<td align="right"></td>
-						<td>
-							<input type="button" id="saveButton" value="Save" class="sexybutton sexysimple sexyblue" />
-						</td>
-					</tr>
-				</table>
+				<form id="createTicketForm" action="${pageContext.request.contextPath}//support/saveTicket.htm" method="post" enctype="multipart/form-data">
+					<table border="0" cellpadding="5" cellspacing="0" width="100%">
+						<tr>
+							<td align="right">Category</td>
+							<td>
+								<select name="category">
+									<c:forEach var="ticketCategory" items="${ticketCategories}">
+										<option value="<c:out value="${ticketCategory.ticketCategoryId}" />">${ticketCategory.name}</option>
+									</c:forEach>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">Header</td>
+							<td><input name="header" type="text" style="width: 600px;" /></td>
+						</tr>
+						<tr>
+							<td align="right">Message</td>
+							<td><textarea name="message" style="width: 600px; height:100px;" ></textarea></td>
+						</tr>
+						<tr>
+							<td align="right">Attachments</td>
+							<td>
+								<input type="file" name="file1" /><br>
+								<input type="file" name="file2" /><br>
+								<input type="file" name="file3" />
+							</td>
+						</tr>
+						<tr>
+							<td align="right"></td>
+							<td>
+								<input type="button" id="saveButton" value="Save" class="sexybutton sexysimple sexyblue" />
+							</td>
+						</tr>
+					</table>
+				</form>
 			</div>
 		</td>
 	</tr>

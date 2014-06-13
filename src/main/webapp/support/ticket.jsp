@@ -33,9 +33,9 @@
 				
 				<div class="menu">
 				    <ul>
-				      <li><a id="ticket" href="ticket.htm"><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/page_green.png"><p>Ticket</p></a></li>
+				      <li><a id="ticket" href="ticket.htm"><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/page_green.png"><p>All tickets</p></a></li>
+				      <li><a id="ticket" href="ticket.htm"><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/page_green.png"><p>My tickets</p></a></li>
 				      <li><a id="createTicketBtton" href="createTicket.htm"><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/add.png"><p>Create ticket</p></a></li>
-				      <li><a href="#" target="_blank"><img src="../theme/<fmt:bundle basename="main"><fmt:message key="theme" /></fmt:bundle>/en/image/famfamfam/icons/script.png"><p>Service plan</p></a></li>
 				    </ul>
 				</div>
 			</div>

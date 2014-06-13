@@ -3,6 +3,7 @@ package com.titanenduserportal.table.ticket;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.File;
+import java.sql.Blob;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,9 +37,9 @@ public class Ticket {
 	@JoinColumn(name = "userId")
 	public User user;
 
-	public File attachment1;
-	public File attachment2;
-	public File attachment3;
+	public Blob attachment1;
+	public Blob attachment2;
+	public Blob attachment3;
 
 	public Integer getTicketId() {
 		return ticketId;
@@ -88,27 +89,27 @@ public class Ticket {
 		this.user = user;
 	}
 
-	public File getAttachment1() {
+	public Blob getAttachment1() {
 		return attachment1;
 	}
 
-	public void setAttachment1(File attachment1) {
+	public void setAttachment1(Blob attachment1) {
 		this.attachment1 = attachment1;
 	}
 
-	public File getAttachment2() {
+	public Blob getAttachment2() {
 		return attachment2;
 	}
 
-	public void setAttachment2(File attachment2) {
+	public void setAttachment2(Blob attachment2) {
 		this.attachment2 = attachment2;
 	}
 
-	public File getAttachment3() {
+	public Blob getAttachment3() {
 		return attachment3;
 	}
 
-	public void setAttachment3(File attachment3) {
+	public void setAttachment3(Blob attachment3) {
 		this.attachment3 = attachment3;
 	}
 
