@@ -8,7 +8,9 @@ import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.StatelessSession;
-import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.service.ServiceRegistryBuilder;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
@@ -18,10 +20,11 @@ import org.reflections.util.FilterBuilder;
 
 public class HibernateUtil {
 	private static final SessionFactory sessionFactory = buildSessionFactory();
+	private static ServiceRegistry serviceRegistry;
 
 	private static SessionFactory buildSessionFactory() {
 		try {
-			AnnotationConfiguration config = new AnnotationConfiguration().configure(PropertyUtil.getProperty("hibernateConfigFile"));
+			Configuration config = new Configuration().configure(PropertyUtil.getProperty("hibernateConfigFile"));
 			List<ClassLoader> classLoadersList = new LinkedList<ClassLoader>();
 			classLoadersList.add(ClasspathHelper.contextClassLoader());
 			classLoadersList.add(ClasspathHelper.staticClassLoader());
@@ -35,7 +38,8 @@ public class HibernateUtil {
 				config.addAnnotatedClass(iterator.next());
 			}
 
-			return config.buildSessionFactory();
+			serviceRegistry = new ServiceRegistryBuilder().applySettings(config.getProperties()).buildServiceRegistry();
+			return config.buildSessionFactory(serviceRegistry);
 		} catch (Throwable ex) {
 			System.err.println("Initial SessionFactory creation failed." + ex);
 			throw new ExceptionInInitializerError(ex);
