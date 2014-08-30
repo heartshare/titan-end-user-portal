@@ -1,5 +1,6 @@
 package com.titanenduserportal;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,10 +22,11 @@ import org.reflections.util.FilterBuilder;
 public class HibernateUtil {
 	private static final SessionFactory sessionFactory = buildSessionFactory();
 	private static ServiceRegistry serviceRegistry;
+	static File configFile = new File(PropertyUtil.getProperty("hibernateConfigFile"));
 
 	private static SessionFactory buildSessionFactory() {
 		try {
-			Configuration config = new Configuration().configure(PropertyUtil.getProperty("hibernateConfigFile"));
+			Configuration config = new Configuration().configure(configFile);
 			List<ClassLoader> classLoadersList = new LinkedList<ClassLoader>();
 			classLoadersList.add(ClasspathHelper.contextClassLoader());
 			classLoadersList.add(ClasspathHelper.staticClassLoader());

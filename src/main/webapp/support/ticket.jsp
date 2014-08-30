@@ -50,7 +50,7 @@
 					<tr>
 						<th>Ticket No.</th>
 						<th>Header</th>
-						<th>Catrgory</th>
+						<th>Category</th>
 						<th>Date</th>
 						<th>Last update</th>
 						<th>Last update person</th>
