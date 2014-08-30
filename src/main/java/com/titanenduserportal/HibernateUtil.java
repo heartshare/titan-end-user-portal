@@ -22,11 +22,10 @@ import org.reflections.util.FilterBuilder;
 public class HibernateUtil {
 	private static final SessionFactory sessionFactory = buildSessionFactory();
 	private static ServiceRegistry serviceRegistry;
-	static File configFile = new File(PropertyUtil.getProperty("hibernateConfigFile"));
 
 	private static SessionFactory buildSessionFactory() {
 		try {
-			Configuration config = new Configuration().configure(configFile);
+			Configuration config = new Configuration().configure(PropertyUtil.getProperty("hibernateConfigFile"));
 			List<ClassLoader> classLoadersList = new LinkedList<ClassLoader>();
 			classLoadersList.add(ClasspathHelper.contextClassLoader());
 			classLoadersList.add(ClasspathHelper.staticClassLoader());
