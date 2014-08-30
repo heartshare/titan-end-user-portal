@@ -218,11 +218,24 @@ public class VMController {
 		model.addAttribute("titanServerRestURL", titanServerRestURL);
 		return "/vm/vmDetail";
 	}
-	
+
 	@RequestMapping(value = "/remote.htm", method = RequestMethod.GET)
 	public String remote(ModelMap model, String instanceId) {
-		model.addAttribute("instanceId", instanceId);
-		model.addAttribute("titanServerRestURL", titanServerRestURL);
+		try {
+			model.addAttribute("instanceId", instanceId);
+			model.addAttribute("titanServerRestURL", titanServerRestURL);
+
+			JSONObject obj;
+			JSONObject base;
+			Hashtable<String, String> parameters = new Hashtable<String, String>();
+			parameters.put("titanCommand", "get vnc port");
+			parameters.put("instanceNameOrInstanceId", instanceId);
+			String resultStr = CommonLib.sendPost(titanServerRestURL + "/rest/titan/sendCommand.htm", parameters, null);
+			System.out.println(resultStr);
+		} catch (Exception ex) {
+
+			ex.printStackTrace();
+		}
 		return "/vm/remote";
 	}
 }
